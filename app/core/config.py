@@ -1,5 +1,52 @@
+from typing import Dict
 from pathlib import Path
+import urllib.parse
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import SecretStr
+
+class DatabaseSettings(BaseSettings):
+
+    DIALECT:             str
+    DRIVERNAME:          str
+    USERNAME:            str
+    PASSWORD:            SecretStr
+    HOST:                str
+    PORT:                int
+    NAME:                str
+
+
+    @property
+    def params(self) -> Dict[str, str]:
+        return {
+            "drivername": f"{self.DIALECT}+{self.DRIVERNAME}",
+            "username": self.USERNAME,
+            "password": urllib.parse.quote_plus(self.PASSWORD.get_secret_value()),
+            "host": self.HOST,
+            "port": self.PORT,
+            "database": self.NAME
+        }
+
+class EngineSettings(BaseSettings):
+
+    ECHO: bool = True
+
+    @property
+    def params(self) -> Dict[str, bool]:
+        return {"echo": self.ECHO}
+    
+class SessionSettings(BaseSettings):
+
+    AUTOCOMMIT: bool = False
+    AUTOFLUSH: bool = False
+    EXPIRE_ON_COMMIT: bool = False
+
+    @property
+    def params(self) -> Dict[str, bool]:
+        return {
+            "autocommit": self.AUTOCOMMIT,
+            "autoflush": self.AUTOFLUSH,
+            "expire_on_commit": self.EXPIRE_ON_COMMIT
+        }
 
 class PathSettings(BaseSettings):
 
@@ -21,6 +68,9 @@ class PathSettings(BaseSettings):
 
 class Settings(BaseSettings):
     
+    db: DatabaseSettings = DatabaseSettings()
+    engine: EngineSettings = EngineSettings()
+    session: SessionSettings = SessionSettings()
     paths: PathSettings = PathSettings()
 
     model_config = SettingsConfigDict(
