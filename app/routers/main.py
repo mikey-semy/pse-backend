@@ -9,8 +9,6 @@ templates = Jinja2Templates(directory=str(config.paths.templates_path))
 
 router = APIRouter()
 
-questions = Questions().questions
-
 @router.get("/", response_class=HTMLResponse)
 async def homepage(request: Request):
     context = {
@@ -21,14 +19,3 @@ async def homepage(request: Request):
         name="index.html",
         context=context
     )
-
-@router.get("/questions")
-async def get_all_questions():
-    return questions
-
-@router.get("/questions/{question_text}")
-async def get_one_question(question_text: str):
-    if question_text in questions:
-        return questions[answer]
-    else:
-        return "Not found"

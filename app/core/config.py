@@ -16,7 +16,7 @@ class PathSettings(BaseSettings):
     env_path:               Path    =   main_path / env_file_name
     app_path:               Path    =   app_folder_name
     templates_path:         Path    =   app_folder_name / templates_folder_name
-    static_path:            Path    =   templates_path / static_folder_name
+    static_path:            Path    =   app_folder_name / static_folder_name
 
 
 class Settings(BaseSettings):
