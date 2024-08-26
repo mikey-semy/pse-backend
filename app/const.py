@@ -2,21 +2,21 @@ from typing import Final, Dict, Any
 from app.version import __version__
 
 # Application params
-APP_TITLE: Final[str] = "PSE"
-APP_DESCRIPTION: Final[str] = ""
+app_title: Final[str] = "PSE"
+app_description: Final[str] = ""
 
 app_params:   Final[Dict[str, Any]] = {
-    "title": APP_TITLE, 
-    "description": APP_DESCRIPTION,
+    "title": app_title, 
+    "description": app_description,
     "version": __version__,
     "swagger_ui_parameters": {"defaultModelsExpandDepth": -1},
     }
 
 # Uvicorn params
-HOST: Final = "0.0.0.0"
-PORT: Final = 8000
+host: Final = "0.0.0.0"
+port: Final = 8000
 
 uvicorn_params:   Final[Dict[str, Any]] = {
-    "host": HOST, 
-    "port": PORT
+    "host": host, 
+    "port": port
     }
