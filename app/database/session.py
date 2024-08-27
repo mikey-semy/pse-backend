@@ -81,7 +81,7 @@ class DatabaseSession():
 class SessionContextManager():
 
     def __init__(self) -> None:
-        self.db_session = DatabaseSession(settings)
+        self.db_session = DatabaseSession(config)
         self.session_factory = self.db_session.create_async_session_factory()
         self.session = None
 
