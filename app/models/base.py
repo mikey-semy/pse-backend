@@ -8,7 +8,7 @@ class SQLModel(DeclarativeBase):
     Provides convenience methods that can be used to convert model
     to the corresponding schema.
     """
-
+    
     @classmethod
     def schema(cls) -> str:
         """Return name of database schema the model refers to."""

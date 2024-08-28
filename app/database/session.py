@@ -15,7 +15,12 @@ https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session.__
 '''
 from typing import Dict, Any
 from sqlalchemy import URL
-from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncSession, 
+    AsyncEngine, 
+    async_sessionmaker, 
+    create_async_engine
+    )
 from app.core.config import config
 
 
@@ -23,15 +28,15 @@ class DatabaseSession():
     """
     A class to initialize and set up the database connection and ORM components.
     """
-    def __init__(self, config: Any = config) -> None:
+    def __init__(self, settings: Any = config) -> None:
         """
         Initialize the InitialDatabase instance.
         """
-        self.dsn_params = config.db.params
+        self.dsn_params = settings.db.params
 
-        self.engine_params = config.engine.params
+        self.engine_params = settings.engine.params
 
-        self.sessionmaker_params = config.session.params
+        self.sessionmaker_params = settings.session.params
 
 
     def __create_dsn(self, dsn_params: Dict[str, str]) -> URL:

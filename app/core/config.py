@@ -6,24 +6,24 @@ from pydantic import SecretStr
 
 class DatabaseSettings(BaseSettings):
 
-    DIALECT:             str
-    DRIVERNAME:          str
-    USERNAME:            str
-    PASSWORD:            SecretStr
-    HOST:                str
-    PORT:                int
-    NAME:                str
+    DB_DIALECT:             str
+    DB_DRIVERNAME:          str
+    DB_USERNAME:            str
+    DB_PASSWORD:            SecretStr
+    DB_HOST:                str
+    DB_PORT:                int
+    DB_NAME:                str
 
 
     @property
     def params(self) -> Dict[str, str]:
         return {
-            "drivername": f"{self.DIALECT}+{self.DRIVERNAME}",
-            "username": self.USERNAME,
-            "password": urllib.parse.quote_plus(self.PASSWORD.get_secret_value()),
-            "host": self.HOST,
-            "port": self.PORT,
-            "database": self.NAME
+            "drivername": f"{self.DB_DIALECT}+{self.DB_DRIVERNAME}",
+            "username": self.DB_USERNAME,
+            "password": urllib.parse.quote_plus(self.DB_PASSWORD.get_secret_value()),
+            "host": self.DB_HOST,
+            "port": self.DB_PORT,
+            "database": self.DB_NAME
         }
 
 class EngineSettings(BaseSettings):
