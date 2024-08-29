@@ -1,5 +1,19 @@
 version: "3.8"
 services:
+  database:
+    container_name: database_pse
+    image: postgres:16.4-alpine3.19
+    env_file:
+      - ./.env
+    ports:
+      - "5433:5433"
+    restart: unless-stopped
+    volumes:
+      - database_volume:/var/lib/postgresql/data/
+      - ./library/postgres/init-database.sh:/docker-entrypoint-initdb.d
+    networks:
+      - network
+
   backend:
     container_name: backend_pse
     build: 
@@ -9,29 +23,19 @@ services:
     env_file:
       - ./.env
     ports:
-      - 8000:8000
+      - 8080:8000
     restart: always
     volumes:
-      - backend_static_volume:/usr/src/pse/static
+      - backend_static_volume:/usr/src/app/static
+      - ./docker-entrypoint.sh:/usr/src/app/docker-entrypoint.sh
     networks:
       - network
   
-  database:
-    container_name: database_pse
-    image: postgres:16.4-alpine3.19
-    env_file:
-      - ./.env
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-    volumes:
-      - database_volume:/var/lib/postgresql/data/
-    networks:
-      - network
+  
 
 volumes:
   database_volume:
-  beckend_static_volume:
+  backend_static_volume:
 
 
 networks:

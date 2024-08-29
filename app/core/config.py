@@ -15,6 +15,8 @@ class DatabaseSettings(BaseSettings):
     DB_NAME:                str
 
 
+    
+    
     @property
     def params(self) -> Dict[str, str]:
         return {
@@ -72,7 +74,9 @@ class Settings(BaseSettings):
     engine: EngineSettings = EngineSettings()
     session: SessionSettings = SessionSettings()
     paths: PathSettings = PathSettings()
-
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
     model_config = SettingsConfigDict(
         env_file=paths.env_path,
         env_file_encoding="utf-8",
