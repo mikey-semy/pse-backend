@@ -20,8 +20,10 @@ class BaseDataManager(SessionMixin):
     def add_all(self, model: Sequence[Any]) -> None:
         self.session.add_all(model)
     
-    def get_one(self, select_statement: Executable) -> Any:
-        return self.session.scalar(select_statement)
+    async def get_one(self, select_statement: Executable) -> Any:
+        return await self.session.scalar(select_statement)
     
-    def get_all(self, select_statement: Executable) -> List[Any]:
-        return list(self.session.scalars(select_statement).all())
+    async def get_all(self, select_statement: Executable) -> List[Any]:
+        result = self.session.execute(select_statement)
+        return await result.all()
+        # return list(self.session.scalars(select_statement).all())

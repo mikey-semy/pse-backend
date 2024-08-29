@@ -14,7 +14,7 @@ app_params:   Final[Dict[str, Any]] = {
 
 # Uvicorn params
 host: Final = "0.0.0.0"
-port: Final = 8080
+port: Final = 8000
 
 uvicorn_params:   Final[Dict[str, Any]] = {
     "host": host, 

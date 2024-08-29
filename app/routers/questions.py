@@ -14,14 +14,20 @@ async def post_question(
 ):
     return QuestionService(session).add_question(question)
 
+@router.get("/question", response_model=List[QuestionSchema])
+async def get_question(
+    question_id: int,
+    session: Session = Depends(get_db_session)):
+    return await QuestionService(session).get_question(question_id)
+
 @router.get("/search", response_model=List[QuestionSchema])
 async def search_questions(
     q: str = Query(..., min_length=3),
     session: Session = Depends(get_db_session)):
-    return QuestionService(session).search_questions(q)
+    return await QuestionService(session).search_questions(q)
 
 @router.get("/questions", response_model=List[QuestionSchema])
 async def get_questions(
     session: Session = Depends(get_db_session)
 ) -> List[QuestionSchema]:
-    return QuestionService(session).get_questions()
+    return await QuestionService(session).get_questions()

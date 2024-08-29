@@ -74,6 +74,7 @@ class Settings(BaseSettings):
     engine: EngineSettings = EngineSettings()
     session: SessionSettings = SessionSettings()
     paths: PathSettings = PathSettings()
+    postgres_host: str
     postgres_user: str
     postgres_password: str
     postgres_db: str
