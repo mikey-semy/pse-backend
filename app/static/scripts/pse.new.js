@@ -14,31 +14,60 @@ function getAnswers() {
     return Array.from(answerElements).map(el => el.textContent);
 }
 
-// Функция для отправки данных на сервер
-function sendDataToServer() {
-    const questionText = getQuestionText();
-    const answers = getAnswers();
+// Функция для поиска вопроса на сервере
+function searchQuestion() {
+    let response = {
+        run: function (url) {
+            let headers = {
+                'accept': 'application/json',
+            };
 
-    const data = {
-        question: questionText,
-        answers: answers
+            fetch(url, {
+                'method': 'GET',
+                'mode': 'cors',
+                'credentials': 'include',
+                'cache': 'no-cache',
+                'headers': headers
+            })
+            .then(response => this.check(response))
+            .then(data => this.success(data))
+            .catch(error => this.error(error));
+        },
+
+        check: function (response) {
+            if (response.status !== 200) {
+                console.log('Похоже, возникла проблема. Код состояния: ' + response.status);
+                return;
+            }
+            return response.json();
+        },
+
+        success: function (data) {
+            console.log('Данные получены!');
+            handleServerResponse(data)
+        },
+
+        error: function (error) {
+            console.log('Ошибка: ', error);
+        }
     };
 
-    fetch('/api/question', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Обработка ответа сервера
-        highlightCorrectAnswers(data.correctAnswers);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    const questionText = getQuestionText();
+    const url = '/search?q=' + encodeURIComponent(questionText);
+    response.run(url);
+};
+
+function handleServerResponse(data) {
+    if (data.length > 0) {
+        if (data.length == 1) {
+            highlightCorrectAnswers(data[0].correct_answers);
+        } else {
+            showQuestions(data)
+        }
+    } else {
+        showMessageQuestionNotFound();
+        sendDataToServer();
+    }
 }
 
 // Функция для подсветки правильных ответов
