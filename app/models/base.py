@@ -29,11 +29,11 @@ class SQLModel(DeclarativeBase):
         """Return list of model field names."""
 
         return cls.__mapper__.selectable.c.keys()
-
+    @property
     def to_dict(self) -> Dict[str, Any]:
         """Convert model instance to a dictionary."""
 
-        _dict: Dict[str, Any] = dict()
+        _dict: Dict[str, Any] = {}
         for key in self.__mapper__.c.keys():
             _dict[key] = getattr(self, key)
         return _dict

@@ -1,7 +1,7 @@
-from typing import Any, Sequence, List
+from typing import Any, List
 from sqlalchemy.sql.expression import Executable
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from app.schemas.questions import QuestionSchema
 
 class SessionMixin:
     """Provides instance of database session."""
@@ -11,19 +11,31 @@ class SessionMixin:
 
 class BaseService(SessionMixin):
     """Base class for application services."""
-    
+
 class BaseDataManager(SessionMixin):
-    
-    def add_one(self, model: Any) -> None:
+
+    async def add_one(self, model: Any) -> QuestionSchema:
         self.session.add(model)
-    
-    def add_all(self, model: Sequence[Any]) -> None:
-        self.session.add_all(model)
-    
-    async def get_one(self, select_statement: Executable) -> Any:
-        return await self.session.scalar(select_statement)
-    
+        await self.session.commit()
+        await self.session.refresh(model)
+        return QuestionSchema(**model.to_dict)
+
+    async def update_one(self, model_to_update, updated_model: Any) -> QuestionSchema | None:
+        if model_to_update:
+            updated_model_dict = updated_model.to_dict
+            for key, value in updated_model_dict.items():
+                if key != "id":
+                    setattr(model_to_update, key, value)
+        else:
+            return None
+        await self.session.commit()
+        await self.session.refresh(model_to_update)
+        return QuestionSchema(**model_to_update.to_dict)
+
+    async def get_one(self, select_statement: Executable) -> Any | None:
+        result = await self.session.execute(select_statement)
+        return result.scalar()
+
     async def get_all(self, select_statement: Executable) -> List[Any]:
-        result = self.session.execute(select_statement)
-        return await result.all()
-        # return list(self.session.scalars(select_statement).all())
+        result = await self.session.execute(select_statement)
+        return list(result.scalars())

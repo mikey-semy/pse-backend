@@ -11,10 +11,24 @@ router = APIRouter()
 async def post_question(
     question: QuestionSchema,
     session: Session = Depends(get_db_session)
-):
-    return QuestionService(session).add_question(question)
+) -> QuestionSchema:
+    return await QuestionService(session).add_question(question)
 
-@router.get("/question", response_model=List[QuestionSchema])
+@router.post("/add_all")
+async def add_all_questions(
+    session: Session = Depends(get_db_session)
+) -> None:
+    await QuestionService(session).add_all_questions()
+
+@router.put("/{question_id}")
+async def update_question(
+    question_id: int,
+    question: QuestionSchema,
+    session: Session = Depends(get_db_session)
+) -> QuestionSchema:
+    return await QuestionService(session).update_question(question_id, question)
+
+@router.get("/question/{question_id}", response_model=QuestionSchema | None)
 async def get_question(
     question_id: int,
     session: Session = Depends(get_db_session)):
