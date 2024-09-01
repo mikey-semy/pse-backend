@@ -16,8 +16,8 @@ RUN pip install -r /temp/requirements.txt
 EXPOSE 8000
 
 COPY . /usr/src/app
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
-RUN chmod +x /wait
+# ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+# RUN chmod +x /wait
 COPY ./docker-entrypoint.sh /usr/src/app/docker-entrypoint.sh
 RUN chmod +x /usr/src/app/docker-entrypoint.sh
 

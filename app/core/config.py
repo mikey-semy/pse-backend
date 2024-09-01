@@ -1,7 +1,15 @@
-from typing import Dict
+import json
+import os
+from typing import Dict, List, Any, Tuple, Type
 from pathlib import Path
 import urllib.parse
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict,
+    EnvSettingsSource,
+    PydanticBaseSettingsSource,
+)
+from pydantic.fields import FieldInfo
 from pydantic import SecretStr
 
 class DatabaseSettings(BaseSettings):
@@ -14,9 +22,6 @@ class DatabaseSettings(BaseSettings):
     DB_PORT:                int
     DB_NAME:                str
 
-
-    
-    
     @property
     def params(self) -> Dict[str, str]:
         return {
@@ -35,7 +40,7 @@ class EngineSettings(BaseSettings):
     @property
     def params(self) -> Dict[str, bool]:
         return {"echo": self.ECHO}
-    
+
 class SessionSettings(BaseSettings):
 
     AUTOCOMMIT: bool = False
@@ -54,7 +59,7 @@ class PathSettings(BaseSettings):
 
     # File names
     env_file_name:          Path    =   Path('.env')
-    
+
     # Folder names
     app_folder_name:        Path    =   Path('app')
     templates_folder_name:  Path    =   Path('templates')
@@ -67,17 +72,18 @@ class PathSettings(BaseSettings):
     templates_path:         Path    =   app_folder_name / templates_folder_name
     static_path:            Path    =   app_folder_name / static_folder_name
 
-
 class Settings(BaseSettings):
-    
+
     db: DatabaseSettings = DatabaseSettings()
     engine: EngineSettings = EngineSettings()
     session: SessionSettings = SessionSettings()
     paths: PathSettings = PathSettings()
+
     postgres_host: str
     postgres_user: str
     postgres_password: str
     postgres_db: str
+
     model_config = SettingsConfigDict(
         env_file=paths.env_path,
         env_file_encoding="utf-8",

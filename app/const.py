@@ -1,4 +1,4 @@
-from typing import Final, Dict, Any
+from typing import Final, Dict, Any, List
 from app.version import __version__
 
 # Application params
@@ -13,10 +13,18 @@ app_params:   Final[Dict[str, Any]] = {
     }
 
 # Uvicorn params
-host: Final = "0.0.0.0"
+host: Final = "127.0.0.1"
 port: Final = 8000
 
 uvicorn_params:   Final[Dict[str, Any]] = {
     "host": host, 
     "port": port
     }
+
+origins: List[str] = [
+        "https://sqp.mobileapp.severstal.com",
+        "http://localhost.tiangolo.com",
+        "https://localhost.tiangolo.com",
+        "http://localhost",
+        "http://localhost:8080"
+    ]

@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-/wait
+# /wait
 # alembic init migrations
 # alembic revision --autogenerate -m "Initial migration"
 # alembic upgrade head

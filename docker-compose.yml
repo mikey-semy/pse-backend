@@ -19,8 +19,8 @@ services:
     networks:
       - network
 
-  backend:
-    container_name: backend_pse
+  web:
+    container_name: web_pse
     build: 
       context: .
     depends_on:
@@ -32,16 +32,29 @@ services:
       - 8000:8000
     restart: always
     volumes:
-      - backend_static_volume:/usr/src/app/static
+      - web_static_volume:/usr/src/app/static
       - ./docker-entrypoint.sh:/usr/src/app/docker-entrypoint.sh
     networks:
       - network
-  
-  
+
+  nginx:
+    build: ./nginx
+    container_name: nginx_pse
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    volumes:
+      - web_static_volume:/usr/src/app/static
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - network
+      
+
 
 volumes:
   database_volume:
-  backend_static_volume:
+  web_static_volume:
 
 
 networks:
