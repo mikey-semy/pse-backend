@@ -1,9 +1,10 @@
 __pycache__
 .git
+deploy
 venv
 docs
 .vscode
-.env
+# .env
 *.pyc
 *.pyo
 *.pyd

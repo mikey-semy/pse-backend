@@ -13,7 +13,7 @@ app_params:   Final[Dict[str, Any]] = {
     }
 
 # Uvicorn params
-host: Final = "127.0.0.1"
+host: Final = "0.0.0.0"
 port: Final = 8000
 
 uvicorn_params:   Final[Dict[str, Any]] = {
@@ -26,5 +26,5 @@ origins: List[str] = [
         "http://localhost.tiangolo.com",
         "https://localhost.tiangolo.com",
         "http://localhost",
-        "http://localhost:8080"
+        "http://localhost:8000"
     ]

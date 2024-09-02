@@ -30,6 +30,8 @@ services:
       - ./.env
     ports:
       - 8000:8000
+    environment:
+      - HOST_MACHINE=172.17.0.1
     restart: always
     volumes:
       - web_static_volume:/usr/src/app/static
@@ -41,7 +43,7 @@ services:
     build: ./nginx
     container_name: nginx_pse
     ports:
-      - 80:80
+      - 8000:8000
     depends_on:
       - web
     volumes:
