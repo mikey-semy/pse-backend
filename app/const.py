@@ -23,8 +23,8 @@ uvicorn_params:   Final[Dict[str, Any]] = {
 
 origins: List[str] = [
         "https://sqp.mobileapp.severstal.com",
-        "http://localhost.tiangolo.com",
-        "https://localhost.tiangolo.com",
-        "http://localhost",
-        "http://localhost:80"
+        # "http://localhost.tiangolo.com",
+        # "https://localhost.tiangolo.com",
+        # "http://localhost",
+        # "http://localhost:8000"
     ]
