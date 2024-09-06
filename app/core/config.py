@@ -4,11 +4,11 @@ from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from pydantic import PostgresDsn
+from pydantic import SecretStr
 
 class DatabaseSettings(BaseSettings):
 
-    DSN:    PostgresDsn
+    DSN:    SecretStr
 
 class EngineSettings(BaseSettings):
 

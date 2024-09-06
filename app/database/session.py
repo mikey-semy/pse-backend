@@ -21,7 +21,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine
     )
 from app.core.config import config
-from pydantic import PostgresDsn
+from pydantic import SecretStr
 
 class DatabaseSession():
     """
@@ -35,25 +35,25 @@ class DatabaseSession():
             settings (Any): Объект конфигурации. По умолчанию используется глобальный объект config.
         """
         
-        self.dsn = settings.db.DSN
+        self.dsn = settings.db.DSN.get_secret_value()
 
         self.engine_params = settings.engine.params
 
         self.sessionmaker_params = settings.session.params
 
-    def __get_dsn(self, dsn: PostgresDsn) -> PostgresDsn:
+    def __get_dsn(self, dsn: SecretStr) -> SecretStr:
         """
         Получает строку DSN из параметров.
 
         Args:
-            dsn (PostgresDsn): URL DSN.
+            dsn (SecretStr): URL DSN.
 
         Returns:
-            PostgresDsn: Строка URL DSN.
+            SecretStr: Строка URL DSN.
         """
         return dsn
 
-    def __create_async_engine(self, dsn: PostgresDsn,
+    def __create_async_engine(self, dsn: SecretStr,
                         engine_params: Dict[str, bool]) -> AsyncEngine:
         """
         Создает асинхронный движок SQLAlchemy.
