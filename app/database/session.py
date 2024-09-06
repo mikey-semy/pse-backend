@@ -3,7 +3,7 @@ This module provides functionality for initializing and setting up database conn
 and ORM components using SQLAlchemy with asynchronous support.
 
 Note:
- - dsn_params
+ - dsn
 https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.engine.dsn.create
 
  - create_async_engine_params:
@@ -14,7 +14,6 @@ https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session.__
 
 '''
 from typing import Dict, Any
-from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import (
     AsyncSession, 
     AsyncEngine, 
@@ -36,7 +35,7 @@ class DatabaseSession():
             settings (Any): Объект конфигурации. По умолчанию используется глобальный объект config.
         """
         
-        self.dsn = settings.db.dsn
+        self.dsn = settings.db.DSN
 
         self.engine_params = settings.engine.params
 

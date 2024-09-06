@@ -8,7 +8,7 @@ from pydantic import PostgresDsn
 
 class DatabaseSettings(BaseSettings):
 
-    dsn:    PostgresDsn
+    DSN:    PostgresDsn
 
 class EngineSettings(BaseSettings):
 

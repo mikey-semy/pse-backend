@@ -16,7 +16,7 @@ db_settings = DatabaseSettings()
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "dsn", f"{db_settings.dsn}")
+config.set_section_option(section, "dsn", f"{db_settings.DSN}")
 
 
 # Interpret the config file for Python logging.
