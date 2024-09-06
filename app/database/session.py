@@ -22,44 +22,64 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine
     )
 from app.core.config import config
-
+from pydantic import PostgresDsn
 
 class DatabaseSession():
     """
-    A class to initialize and set up the database connection and ORM components.
+    Класс для инициализации и настройки подключения к базе данных и компонентов ORM.
     """
     def __init__(self, settings: Any = config) -> None:
         """
-        Initialize the InitialDatabase instance.
+        Инициализирует экземпляр DatabaseSession.
+
+        Args:
+            settings (Any): Объект конфигурации. По умолчанию используется глобальный объект config.
         """
-        self.dsn_params = settings.db.params
+        
+        self.dsn = settings.db.dsn
 
         self.engine_params = settings.engine.params
 
         self.sessionmaker_params = settings.session.params
 
+    def __get_dsn(self, dsn: PostgresDsn) -> PostgresDsn:
+        """
+        Получает строку DSN из параметров.
 
-    def __create_dsn(self, dsn_params: Dict[str, str]) -> URL:
+        Args:
+            dsn (PostgresDsn): URL DSN.
+
+        Returns:
+            PostgresDsn: Строка URL DSN.
         """
-        Create a SQLAlchemy dsn (data source name) object for database connection.
-        """
-        dsn = URL.create(**dsn_params)
-        
         return dsn
 
-
-    def __create_async_engine(self, dsn: str,
+    def __create_async_engine(self, dsn: PostgresDsn,
                         engine_params: Dict[str, bool]) -> AsyncEngine:
         """
-        Create an asynchronous SQLAlchemy engine.
+        Создает асинхронный движок SQLAlchemy.
+
+        Args:
+            dsn (str): Строка подключения к базе данных.
+            engine_params (Dict[str, bool]): Параметры для создания движка.
+
+        Returns:
+            AsyncEngine: Асинхронный движок SQLAlchemy.
         """
         async_engine = create_async_engine(dsn, **engine_params)
-        
+
         return async_engine
-    
+
     def __precreate_async_session_factory(self, async_engine: AsyncEngine, sessionmaker_params: Dict[str, Any]) -> AsyncSession:
         """
-        Precreate an asynchronous session for database operations.
+        Предварительно создает фабрику асинхронных сессий для операций с базой данных.
+
+        Args:
+            async_engine (AsyncEngine): Асинхронный движок SQLAlchemy.
+            sessionmaker_params (Dict[str, Any]): Параметры для создания сессии.
+
+        Returns:
+            AsyncSession: Фабрика асинхронных сессий.
         """
         async_session_factory = async_sessionmaker(
             **sessionmaker_params,
@@ -67,14 +87,17 @@ class DatabaseSession():
             bind=async_engine,
         )
         return async_session_factory
-    
-    
+
+
     def create_async_session_factory(self) -> AsyncSession:
         """
-        Create a configured session factory.
+        Создает настроенную фабрику сессий.
+
+        Returns:
+            AsyncSession: Фабрика асинхронных сессий.
         """
 
-        dsn = self.__create_dsn(self.dsn_params)
+        dsn = self.__get_dsn(self.dsn)
 
         async_engine = self.__create_async_engine(dsn, self.engine_params)
 
@@ -84,30 +107,60 @@ class DatabaseSession():
     
 
 class SessionContextManager():
-
+    """
+    Контекстный менеджер для управления сессиями базы данных.
+    """
+    
     def __init__(self) -> None:
+        """
+        Инициализирует экземпляр SessionContextManager.
+        """
         self.db_session = DatabaseSession(config)
         self.session_factory = self.db_session.create_async_session_factory()
         self.session = None
 
     async def __aenter__(self) -> 'SessionContextManager':
+        """
+        Асинхронный метод входа в контекстный менеджер.
+
+        Returns:
+            SessionContextManager: Экземпляр текущего контекстного менеджера.
+        """
         self.session = self.session_factory()
         return self
 
     async def __aexit__(self, *args: object) -> None:
+        """
+        Асинхронный метод выхода из контекстного менеджера.
+
+        Args:
+            *args: Аргументы, передаваемые при выходе из контекста.
+        """
         await self.rollback()
 
     async def commit(self) -> None:
+        """
+        Асинхронно фиксирует изменения в базе данных и закрывает сессию.
+        """
         await self.session.commit()
         await self.session.close()
         self.session = None
 
     async def rollback(self) -> None:
+        """
+        Асинхронно откатывает изменения в базе данных и закрывает сессию.
+        """
         await self.session.rollback()
         await self.session.close()
         self.session = None
 
 
 async def get_db_session():
+    """
+    Асинхронный генератор для получения сессии базы данных.
+
+    Yields:
+        AsyncSession: Асинхронная сессия базы данных.
+    """
     async with SessionContextManager() as session_manager:
         yield session_manager.session

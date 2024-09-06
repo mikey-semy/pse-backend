@@ -16,12 +16,8 @@ db_settings = DatabaseSettings()
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "DB_DRIVERNAME", f"{db_settings.DB_DIALECT}+{db_settings.DB_DRIVERNAME}")
-config.set_section_option(section, "DB_USER", db_settings.DB_USERNAME)
-config.set_section_option(section, "DB_PASSWORD", db_settings.params["password"])
-config.set_section_option(section, "DB_HOST", db_settings.DB_HOST)
-config.set_section_option(section, "DB_PORT", str(db_settings.DB_PORT))
-config.set_section_option(section, "DB_NAME", db_settings.DB_NAME)
+config.set_section_option(section, "dsn", f"{db_settings.dsn}")
+
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

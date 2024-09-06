@@ -1,58 +1,35 @@
-import json
-import os
-from typing import Dict, List, Any, Tuple, Type
+from typing import Dict
 from pathlib import Path
-import urllib.parse
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
-    EnvSettingsSource,
-    PydanticBaseSettingsSource,
 )
-from pydantic.fields import FieldInfo
-from pydantic import SecretStr
+from pydantic import PostgresDsn
 
 class DatabaseSettings(BaseSettings):
 
-    DB_DIALECT:             str
-    DB_DRIVERNAME:          str
-    DB_USERNAME:            str
-    DB_PASSWORD:            SecretStr
-    DB_HOST:                str
-    DB_PORT:                int
-    DB_NAME:                str
-
-    @property
-    def params(self) -> Dict[str, str]:
-        return {
-            "drivername": f"{self.DB_DIALECT}+{self.DB_DRIVERNAME}",
-            "username": self.DB_USERNAME,
-            "password": urllib.parse.quote_plus(self.DB_PASSWORD.get_secret_value()),
-            "host": self.DB_HOST,
-            "port": self.DB_PORT,
-            "database": self.DB_NAME
-        }
+    dsn:    PostgresDsn
 
 class EngineSettings(BaseSettings):
 
-    ECHO: bool = True
+    echo:   bool = True
 
     @property
     def params(self) -> Dict[str, bool]:
-        return {"echo": self.ECHO}
+        return {"echo": self.echo}
 
 class SessionSettings(BaseSettings):
 
-    AUTOCOMMIT: bool = False
-    AUTOFLUSH: bool = False
-    EXPIRE_ON_COMMIT: bool = False
+    autocommit:         bool = False
+    autoflush:          bool = False
+    expire_on_commit:   bool = False
 
     @property
     def params(self) -> Dict[str, bool]:
         return {
-            "autocommit": self.AUTOCOMMIT,
-            "autoflush": self.AUTOFLUSH,
-            "expire_on_commit": self.EXPIRE_ON_COMMIT
+            "autocommit": self.autocommit,
+            "autoflush": self.autoflush,
+            "expire_on_commit": self.expire_on_commit
         }
 
 class PathSettings(BaseSettings):
@@ -79,7 +56,6 @@ class Settings(BaseSettings):
     session: SessionSettings = SessionSettings()
     paths: PathSettings = PathSettings()
 
-    postgres_host: str
     postgres_user: str
     postgres_password: str
     postgres_db: str
