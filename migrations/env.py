@@ -8,15 +8,15 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from app.core.config import DatabaseSettings
+from app.core.config import config
 metadata = MetaData()
-db_settings = DatabaseSettings()
+dsn = config.db.DSN.get_secret_value()
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "dsn", f"{db_settings.DSN.get_secret_value()}")
+config.set_section_option(section, "dsn", f"{dsn}")
 
 
 # Interpret the config file for Python logging.
