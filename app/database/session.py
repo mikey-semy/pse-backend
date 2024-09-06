@@ -15,9 +15,9 @@ https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session.__
 '''
 from typing import Dict, Any
 from sqlalchemy.ext.asyncio import (
-    AsyncSession, 
-    AsyncEngine, 
-    async_sessionmaker, 
+    AsyncSession,
+    AsyncEngine,
+    async_sessionmaker,
     create_async_engine
     )
 from app.core.config import config
