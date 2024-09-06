@@ -4,11 +4,11 @@ from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from pydantic import AnyUrl
+from pydantic import str
 
 class DatabaseSettings(BaseSettings):
 
-    DSN:    AnyUrl
+    DSN:    str
 
 class EngineSettings(BaseSettings):
 

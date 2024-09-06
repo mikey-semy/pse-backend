@@ -21,7 +21,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine
     )
 from app.core.config import config
-from pydantic import AnyUrl
+from pydantic import str
 
 class DatabaseSession():
     """
@@ -41,19 +41,19 @@ class DatabaseSession():
 
         self.sessionmaker_params = settings.session.params
 
-    def __get_dsn(self, dsn: AnyUrl) -> AnyUrl:
+    def __get_dsn(self, dsn: str) -> str:
         """
         Получает строку DSN из параметров.
 
         Args:
-            dsn (AnyUrl): URL DSN.
+            dsn (str): URL DSN.
 
         Returns:
-            AnyUrl: Строка URL DSN.
+            str: Строка URL DSN.
         """
         return dsn
 
-    def __create_async_engine(self, dsn: AnyUrl,
+    def __create_async_engine(self, dsn: str,
                         engine_params: Dict[str, bool]) -> AsyncEngine:
         """
         Создает асинхронный движок SQLAlchemy.
