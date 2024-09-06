@@ -4,7 +4,6 @@ from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from pydantic import str
 
 class DatabaseSettings(BaseSettings):
 
