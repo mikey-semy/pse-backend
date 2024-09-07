@@ -34,7 +34,7 @@ class DatabaseSession():
             settings (Any): Объект конфигурации. По умолчанию используется глобальный объект config.
         """
         
-        self.dsn = settings.dsn
+        self.dsn = settings.db.dsn
 
         self.engine_params = settings.engine.params
 
