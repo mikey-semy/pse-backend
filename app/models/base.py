@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 from sqlalchemy.orm import DeclarativeBase
-
+from sqlalchemy import MetaData
 
 class SQLModel(DeclarativeBase):
     """Base class used for model definitions.

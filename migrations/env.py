@@ -8,8 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from app.models.base import SQLModel
-from app.models.questions import QuestionModel
+from app.models import questions
 
 from app.core.config import config as settings
 
@@ -20,14 +19,12 @@ metadata = MetaData()
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "DB_DRIVERNAME", f"{settings.db.dialect}+{settings.db.drivername}")
-config.set_section_option(section, "DB_USER", settings.db.username)
-config.set_section_option(section, "DB_PASSWORD", settings.db.params["password"])
-config.set_section_option(section, "DB_HOST", settings.db.host)
-config.set_section_option(section, "DB_PORT", str(settings.db.port))
-config.set_section_option(section, "DB_NAME", settings.db.name)
-# config.set_section_option(section, "dsn", f"{settings.db.dsn}")
 
+if settings.db.env == "dev":
+    config.set_section_option(section, "dsn", f"{settings.db.dsn}")
+else:
+    db_url = f"{settings.db.dialect}+{settings.db.drivername}://{settings.db.username}:{settings.db.params['password']}@{settings.db.host}:{settings.db.port}/{settings.db.name}"
+    config.set_section_option(section, "dsn", db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -38,7 +35,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = SQLModel.metadata
+target_metadata = [questions.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

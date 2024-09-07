@@ -8,12 +8,12 @@ from pydantic_settings import (
 from pydantic import SecretStr#, PostgresDsn
 
 class DatabaseSettings(BaseSettings):
+    
+    env:                str = "dev"
+
     #dsn:    PostgresDsn
-
-    # postgres_user: str
-    # postgres_password: str
-    # postgres_db: str
-
+    dsn:                str
+    
     dialect:             str
     drivername:          str
     username:            str
@@ -25,14 +25,19 @@ class DatabaseSettings(BaseSettings):
 
     @property
     def params(self) -> Dict[str, str]:
-        return {
-            "drivername": f"{self.dialect}+{self.drivername}",
-            "username": self.username,
-            "password": urllib.parse.quote_plus(self.password.get_secret_value()),
-            "host": self.host,
-            "port": self.port,
-            "database": self.name
-        }
+        if self.env == "dev":
+            return {
+                "dsn": self.dsn
+            }
+        elif self.env == "prod":
+            return {
+                "drivername": f"{self.dialect}+{self.drivername}",
+                "username": self.username,
+                "password": urllib.parse.quote_plus(self.password.get_secret_value()),
+                "host": self.host,
+                "port": self.port,
+                "database": self.name
+            }
 class EngineSettings(BaseSettings):
 
     echo:   bool = True

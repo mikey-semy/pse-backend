@@ -42,15 +42,15 @@ class DatabaseSession():
 
         self.sessionmaker_params = settings.session.params
 
-    def __get_dsn(self, dsn: PostgresDsn) -> PostgresDsn:
+    def __get_dsn(self, dsn: str) -> str:
         """
         Получает dsn.
 
         Args:
-            dsn (PostgresDsn): url dsn.
+            dsn (str): url dsn.
 
         Returns:
-            PostgresDsn: url dsn.
+            str: url dsn.
         """
         return dsn
 
@@ -61,7 +61,7 @@ class DatabaseSession():
         dsn = URL.create(**dsn_params)
 
         return dsn
-    
+
     def __create_async_engine(self, dsn: str,
                         engine_params: Dict[str, bool]) -> AsyncEngine:
         """
@@ -105,7 +105,7 @@ class DatabaseSession():
             AsyncSession: Фабрика асинхронных сессий.
         """
 
-        dsn = self.__create_dsn(self.dsn_params)
+        dsn = self.__create_dsn(self.dsn_params) if len(self.dsn_params) > 1 else self.__get_dsn(self.dsn_params)
 
         async_engine = self.__create_async_engine(dsn, self.engine_params)
 
