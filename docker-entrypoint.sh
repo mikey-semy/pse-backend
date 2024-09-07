@@ -2,7 +2,7 @@
 # /wait
 ls -la /usr/src/app/migrations
 if [ ! -f /usr/src/app/migrations/versions/*.py ]; then
-    alembic init migrations
+    
     alembic revision --autogenerate -m "Initial migration"
     alembic upgrade head
 else
