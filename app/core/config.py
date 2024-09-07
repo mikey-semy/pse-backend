@@ -5,22 +5,22 @@ from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from pydantic import SecretStr#, PostgresDsn
+from pydantic import SecretStr
 
 class DatabaseSettings(BaseSettings):
-    
-    env:                str = "dev"
 
-    #dsn:    PostgresDsn
-    dsn:                str
-    
-    dialect:             str
-    drivername:          str
-    username:            str
-    password:            SecretStr
-    host:                str
-    port:                int
-    name:                str
+    env:    str = "dev"
+
+    if env == "dev":
+        dsn:    str
+    elif env == "prod":
+        dialect:    str
+        drivername: str
+        username:   str
+        password:   SecretStr
+        host:   str
+        port:   int
+        name:   str
 
 
     @property
