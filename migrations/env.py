@@ -16,7 +16,7 @@ metadata = MetaData()
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "dsn", f"{config.db.dsn}")
+config.set_section_option(section, "dsn", f"{config.dsn}")
 
 
 # Interpret the config file for Python logging.
