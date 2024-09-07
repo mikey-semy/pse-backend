@@ -8,7 +8,7 @@ templates = Jinja2Templates(directory=str(config.paths.templates_path))
 
 router = APIRouter()
 
-@router.get("/", response_class=HTMLResponse)
+@router.get("", response_class=HTMLResponse)
 async def homepage(request: Request):
     context = {
         "title": "PSE",
