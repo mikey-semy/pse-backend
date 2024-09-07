@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # /wait
+mkdir -p /usr/src/app/migrations/versions
 ls -la /usr/src/app/migrations
+
 if [ ! -f /usr/src/app/migrations/versions/*.py ]; then
     
     alembic revision --autogenerate -m "Initial migration"
