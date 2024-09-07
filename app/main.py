@@ -23,5 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def create_api(app: FastAPI):
+    @app.get(app.root_path + "/openapi.json")
+    def custom_swagger_ui_html():
+        return app.openapi()
+    
 if __name__ == "__main__":
     uvicorn.run(app, **uvicorn_params)
