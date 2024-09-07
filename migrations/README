@@ -2,3 +2,43 @@ Generic single-database configuration with an async dbapi.
 alembic init migrations
 alembic revision --autogenerate -m "New migration"
 alembic upgrade head
+
+Алгоритм работы с миграциями:
+
+Инициализация (первый запуск):
+Создаем директорию для миграций
+Генерируем начальную миграцию
+Применяем миграцию к базе данных
+Пример:
+
+mkdir -p /usr/src/app/migrations/versions
+alembic revision --autogenerate -m "Initial migration"
+alembic upgrade head
+
+Дальнейшая работа с наполненной базой данных:
+Проверяем текущее состояние миграций
+Если есть новые изменения в моделях, создаем новую миграцию
+Применяем все неприменённые миграции
+Пример:
+
+# Проверка текущего состояния
+alembic current
+
+# Создание новой миграции при изменении моделей
+alembic revision --autogenerate -m "Add new table"
+
+# Применение всех неприменённых миграций
+alembic upgrade head
+
+
+Обработка ошибок и восстановление:
+Если возникла ошибка, откатываем до последней стабильной версии
+Исправляем ошибку в коде или миграции
+Повторно применяем миграции
+Пример:
+
+# Откат до предыдущей версии
+alembic downgrade -1
+
+# После исправления ошибки
+alembic upgrade head
