@@ -16,7 +16,13 @@ metadata = MetaData()
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "dsn", f"{settings.db.dsn}")
+config.set_section_option(section, "DB_DRIVERNAME", f"{settings.db.dialect}+{settings.db.drivername}")
+config.set_section_option(section, "DB_USER", settings.db.username)
+config.set_section_option(section, "DB_PASSWORD", settings.db.params["password"])
+config.set_section_option(section, "DB_HOST", settings.db.host)
+config.set_section_option(section, "DB_PORT", str(settings.db.port))
+config.set_section_option(section, "DB_NAME", settings.db.name)
+# config.set_section_option(section, "dsn", f"{settings.db.dsn}")
 
 
 # Interpret the config file for Python logging.

@@ -1,16 +1,38 @@
 from typing import Dict
 from pathlib import Path
+import urllib.parse
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
+from pydantic import SecretStr, PostgresDsn
 
 class DatabaseSettings(BaseSettings):
-    dsn:    str
+    dsn:    PostgresDsn
 
-    postgres_user: str
-    postgres_password: str
-    postgres_db: str
+    # postgres_user: str
+    # postgres_password: str
+    # postgres_db: str
+
+    dialect:             str
+    drivername:          str
+    username:            str
+    password:            SecretStr
+    host:                str
+    port:                int
+    name:                str
+
+
+    @property
+    def params(self) -> Dict[str, str]:
+        return {
+            "drivername": f"{self.dialect}+{self.drivername}",
+            "username": self.username,
+            "password": urllib.parse.quote_plus(self.password.get_secret_value()),
+            "host": self.host,
+            "port": self.port,
+            "database": self.name
+        }
 class EngineSettings(BaseSettings):
 
     echo:   bool = True

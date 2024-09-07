@@ -20,7 +20,9 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine
     )
+from sqlalchemy import URL
 from app.core.config import config
+from pydantic import PostgresDsn
 
 class DatabaseSession():
     """
@@ -33,25 +35,33 @@ class DatabaseSession():
         Args:
             settings (Any): Объект конфигурации. По умолчанию используется глобальный объект config.
         """
-        
-        self.dsn = settings.db.dsn
+
+        self.dsn_params = settings.db.params
 
         self.engine_params = settings.engine.params
 
         self.sessionmaker_params = settings.session.params
 
-    def __get_dsn(self, dsn: str) -> str:
+    def __get_dsn(self, dsn: PostgresDsn) -> PostgresDsn:
         """
-        Получает строку DSN из параметров.
+        Получает dsn.
 
         Args:
-            dsn (str): URL DSN.
+            dsn (PostgresDsn): url dsn.
 
         Returns:
-            str: Строка URL DSN.
+            PostgresDsn: url dsn.
         """
         return dsn
 
+    def __create_dsn(self, dsn_params: Dict[str, str]) -> URL:
+        """
+        Create a SQLAlchemy dsn (data source name) object for database connection.
+        """
+        dsn = URL.create(**dsn_params)
+
+        return dsn
+    
     def __create_async_engine(self, dsn: str,
                         engine_params: Dict[str, bool]) -> AsyncEngine:
         """
@@ -95,7 +105,7 @@ class DatabaseSession():
             AsyncSession: Фабрика асинхронных сессий.
         """
 
-        dsn = self.__get_dsn(self.dsn)
+        dsn = self.__create_dsn(self.dsn_params)
 
         async_engine = self.__create_async_engine(dsn, self.engine_params)
 
