@@ -5,10 +5,10 @@ from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from pydantic import SecretStr, PostgresDsn
+from pydantic import SecretStr#, PostgresDsn
 
 class DatabaseSettings(BaseSettings):
-    dsn:    PostgresDsn
+    #dsn:    PostgresDsn
 
     # postgres_user: str
     # postgres_password: str
