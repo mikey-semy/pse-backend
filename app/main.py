@@ -1,11 +1,14 @@
+from fastapi.responses import JSONResponse
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.openapi.utils import get_openapi
 from app.const import app_params, uvicorn_params, origins
 from app.routers import main, questions
 from app.core.config import config
-from fastapi.openapi.docs import get_swagger_ui_html
+
 static = StaticFiles(directory=config.paths.static_path)
 
 app = FastAPI(**app_params)
@@ -31,6 +34,11 @@ async def custom_swagger_ui_html(req: Request):
         openapi_url=openapi_url,
         title="API",
     )
-    
+
+@app.get("/openapi.json", include_in_schema=False)
+async def get_openapi_json(req: Request):
+    root_path = req.scope.get("root_path", "").rstrip("/")
+    return JSONResponse(get_openapi(title="API", version="1.0.0", routes=app.routes))
+
 if __name__ == "__main__":
     uvicorn.run(app, **uvicorn_params)
