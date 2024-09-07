@@ -87,5 +87,3 @@ class Settings(BaseSettings):
     )
 
 config = Settings()
-
-print(config.db.dsn)
