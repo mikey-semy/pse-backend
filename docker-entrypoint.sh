@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 # /wait
-mkdir -p /usr/src/app/migrations/versions
-ls -la /usr/src/app/migrations
+
+ls -la /usr/src/app/migrations/versions
 
 if [ ! -f /usr/src/app/migrations/versions/*.py ]; then
     
