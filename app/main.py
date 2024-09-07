@@ -29,4 +29,5 @@ def create_api(app: FastAPI):
         return app.openapi()
     
 if __name__ == "__main__":
+    create_api(app)
     uvicorn.run(app, **uvicorn_params)
