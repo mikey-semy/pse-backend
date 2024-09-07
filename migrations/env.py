@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from app.core.config import config
+from app.core.config import config as settings
 metadata = MetaData()
 
 # this is the Alembic Config object, which provides
@@ -16,7 +16,7 @@ metadata = MetaData()
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "dsn", f"{config.db.dsn}")
+config.set_section_option(section, "dsn", f"{settings.db.dsn}")
 
 
 # Interpret the config file for Python logging.
