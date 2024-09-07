@@ -5,14 +5,7 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
-class DatabaseSettings(BaseSettings):
-
-    dsn:    str
-
-    postgres_user: str
-    postgres_password: str
-    postgres_db: str
-    
+class DatabaseSettings(BaseSettings):   
 class EngineSettings(BaseSettings):
 
     echo:   bool = True
@@ -59,7 +52,11 @@ class Settings(BaseSettings):
     session: SessionSettings = SessionSettings()
     paths: PathSettings = PathSettings()
 
-    
+    dsn:    str
+
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
 
     model_config = SettingsConfigDict(
         env_file=paths.env_path,
