@@ -1,11 +1,11 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.const import app_params, uvicorn_params, origins
 from app.routers import main, questions
 from app.core.config import config
-
+from fastapi.openapi.docs import get_swagger_ui_html
 static = StaticFiles(directory=config.paths.static_path)
 
 app = FastAPI(**app_params)
@@ -23,11 +23,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def create_api(app: FastAPI):
-    @app.get(app.root_path + "/openapi.json")
-    def custom_swagger_ui_html():
-        return app.openapi()
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html(req: Request):
+    root_path = req.scope.get("root_path", "").rstrip("/")
+    openapi_url = root_path + app.openapi_url
+    return get_swagger_ui_html(
+        openapi_url=openapi_url,
+        title="API",
+    )
     
 if __name__ == "__main__":
-    create_api(app)
     uvicorn.run(app, **uvicorn_params)
