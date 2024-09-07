@@ -5,7 +5,8 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
-class DatabaseSettings(BaseSettings):   
+class DatabaseSettings(BaseSettings):
+    pass
 class EngineSettings(BaseSettings):
 
     echo:   bool = True
