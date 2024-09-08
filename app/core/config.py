@@ -1,44 +1,13 @@
-from typing import Dict
-from pathlib import Path
+from typing import Dict, Optional
+import pprint
 import urllib.parse
+from pydantic import BaseModel, SecretStr, Field
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from pydantic import SecretStr
-
-class DatabaseSettings(BaseSettings):
-
-    env:    str = "dev"
-
-    if env == "dev":
-        dsn:    str
-    elif env == "prod":
-        dialect:    str
-        drivername: str
-        username:   str
-        password:   SecretStr
-        host:   str
-        port:   int
-        name:   str
-
-
-    @property
-    def params(self) -> Dict[str, str]:
-        if self.env == "dev":
-            return {
-                "dsn": self.dsn
-            }
-        elif self.env == "prod":
-            return {
-                "drivername": f"{self.dialect}+{self.drivername}",
-                "username": self.username,
-                "password": urllib.parse.quote_plus(self.password.get_secret_value()),
-                "host": self.host,
-                "port": self.port,
-                "database": self.name
-            }
-class EngineSettings(BaseSettings):
+from app.const import env_path
+class EngineModel(BaseModel):
 
     echo:   bool = True
 
@@ -46,7 +15,7 @@ class EngineSettings(BaseSettings):
     def params(self) -> Dict[str, bool]:
         return {"echo": self.echo}
 
-class SessionSettings(BaseSettings):
+class SessionModel(BaseModel):
 
     autocommit:         bool = False
     autoflush:          bool = False
@@ -59,36 +28,53 @@ class SessionSettings(BaseSettings):
             "autoflush": self.autoflush,
             "expire_on_commit": self.expire_on_commit
         }
+class DatabaseModel(BaseModel):
 
-class PathSettings(BaseSettings):
+    engine: EngineModel = EngineModel()
+    session: SessionModel = SessionModel()
 
-    # File names
-    env_file_name:          Path    =   Path('.env')
+    env: str = Field(default="dev")
+    dialect: str = Field(default="sqlite")
+    drivername: str = Field(default="aiosqlite")
+    username: Optional[str] = None
+    password: Optional[SecretStr] = None
+    host: Optional[str] = None
+    port: Optional[int] = None
+    name: str = Field(default="./database_pse.db")
 
-    # Folder names
-    app_folder_name:        Path    =   Path('app')
-    templates_folder_name:  Path    =   Path('templates')
-    static_folder_name:     Path    =   Path('static')
-
-    # Paths
-    main_path:              Path    =   Path(__file__).resolve().parents[2]
-    env_path:               Path    =   main_path / env_file_name
-    app_path:               Path    =   app_folder_name
-    templates_path:         Path    =   app_folder_name / templates_folder_name
-    static_path:            Path    =   app_folder_name / static_folder_name
+    @property
+    def params(self) -> Dict[str, str]:
+        if self.env == "dev":
+            return {
+                "drivername": f"{self.dialect}+{self.drivername}",
+                "database": self.name
+            }
+        elif self.env == "prod":
+            return {
+                "drivername": f"{self.dialect}+{self.drivername}",
+                "username": self.username,
+                "password": urllib.parse.quote_plus(self.password.get_secret_value()),
+                "host": self.host,
+                "port": self.port,
+                "database": self.name
+            }
 
 class Settings(BaseSettings):
 
-    db: DatabaseSettings = DatabaseSettings()
-    engine: EngineSettings = EngineSettings()
-    session: SessionSettings = SessionSettings()
-    paths: PathSettings = PathSettings()
+    db: DatabaseModel = DatabaseModel()
 
     model_config = SettingsConfigDict(
-        env_file=paths.env_path,
+
+        env_file=env_path,
         env_file_encoding="utf-8",
         env_nested_delimiter="__",
+
         extra='allow'
     )
 
 config = Settings()
+
+print("=============SETTINGS=============")
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(Settings().model_dump())
+print("==================================")

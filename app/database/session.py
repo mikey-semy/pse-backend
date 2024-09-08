@@ -22,7 +22,6 @@ from sqlalchemy.ext.asyncio import (
     )
 from sqlalchemy import URL
 from app.core.config import config
-from pydantic import PostgresDsn
 
 class DatabaseSession():
     """
@@ -38,9 +37,9 @@ class DatabaseSession():
 
         self.dsn_params = settings.db.params
 
-        self.engine_params = settings.engine.params
+        self.engine_params = settings.db.engine.params
 
-        self.sessionmaker_params = settings.session.params
+        self.sessionmaker_params = settings.db.session.params
 
     def __get_dsn(self, dsn: str) -> str:
         """
@@ -105,7 +104,7 @@ class DatabaseSession():
             AsyncSession: Фабрика асинхронных сессий.
         """
 
-        dsn = self.__create_dsn(self.dsn_params) if len(self.dsn_params) > 1 else self.__get_dsn(self.dsn_params)
+        dsn = self.__create_dsn(self.dsn_params) #if len(self.dsn_params) > 1 else self.__get_dsn(self.dsn_params)
 
         async_engine = self.__create_async_engine(dsn, self.engine_params)
 

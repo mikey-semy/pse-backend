@@ -2,11 +2,10 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.const import app_params, uvicorn_params, origins
+from app.const import app_params, uvicorn_params, origins, static_path
 from app.routers import main, questions
-from app.core.config import config
 
-static = StaticFiles(directory=config.paths.static_path)
+static = StaticFiles(directory=static_path)
 
 app = FastAPI(**app_params)
 app.mount("/static", static, name="static")

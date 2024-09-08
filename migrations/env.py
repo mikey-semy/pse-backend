@@ -20,11 +20,12 @@ config = context.config
 
 section = config.config_ini_section
 
+dsn = settings.db.params
 if settings.db.env == "dev":
-    config.set_section_option(section, "dsn", f"{settings.db.dsn}")
+    config.set_section_option(section, "sqlalchemy.url", f'{dsn["drivername"]}:///{dsn["database"]}')
 else:
-    db_url = f"{settings.db.dialect}+{settings.db.drivername}://{settings.db.username}:{settings.db.params['password']}@{settings.db.host}:{settings.db.port}/{settings.db.name}"
-    config.set_section_option(section, "dsn", db_url)
+    db_url = f'{dsn["drivername"]}://{dsn["username"]}:{dsn["password"]}@{dsn["host"]}:{dsn["port"]}/{dsn["database"]}'
+    config.set_section_option(section, "sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -35,7 +36,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [questions.metadata]
+target_metadata = [questions.MetaData]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
