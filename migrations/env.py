@@ -20,7 +20,7 @@ config = context.config
 
 section = config.config_ini_section
 
-dsn = settings.db.params
+dsn = settings.db_params
 if settings.db.env == "dev":
     config.set_section_option(section, "sqlalchemy.url", f'{dsn["drivername"]}:///{dsn["database"]}')
 else:
