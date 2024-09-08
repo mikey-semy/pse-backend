@@ -22,9 +22,9 @@ section = config.config_ini_section
 
 dsn = settings.db_params
 if settings.db.env == "dev":
-    config.set_section_option(section, "sqlalchemy.url", f'{dsn.drivername}:///{dsn.database}')
+    config.set_section_option(section, "sqlalchemy.url", f'{dsn["drivername"]}:///{dsn["database"]}')
 else:
-    db_url = f'{dsn.drivername}://{dsn.username}:{dsn.password}@{dsn.host}:{dsn.port}/{dsn.database}'
+    db_url = f'{dsn["drivername"]}://{dsn["username"]}:{dsn["password"]}@{dsn["host"]}:{dsn["port"]}/{dsn["database"]}'
     config.set_section_option(section, "sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
