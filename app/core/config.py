@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 import pprint
 import urllib.parse
 from pydantic import BaseModel, SecretStr, Field
@@ -62,7 +62,7 @@ class DatabaseModel(BaseModel):
 class Settings(BaseSettings):
 
     db: DatabaseModel = DatabaseModel()
-
+    flat_params: Dict[str, Any] = Field(default_factory=dict)
     model_config = SettingsConfigDict(
 
         env_file=env_path,
@@ -71,10 +71,16 @@ class Settings(BaseSettings):
 
         extra='allow'
     )
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.flat_params = {k: v for k, v in self.model_dump().items() if not isinstance(v, dict)}
 config = Settings()
+db = {k: v for k, v in config.model_dump().items() if not isinstance(v, dict)}
 
 print("=============SETTINGS=============")
 pp = pprint.PrettyPrinter(indent=4)
 pp.pprint(Settings().model_dump())
+print(f"============={Settings().db.env}=============")
+pp.pprint({k: v for k, v in config.model_dump().items() if not isinstance(v, dict)})
+pp.pprint(Settings().model_config)
 print("==================================")
