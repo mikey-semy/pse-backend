@@ -1,6 +1,8 @@
+import json
 from typing import Any, Dict, List
+from sqlalchemy import Text
+from sqlalchemy.types import ARRAY, TypeDecorator, Text, JSON
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import MetaData
 
 class SQLModel(DeclarativeBase):
     """Base class used for model definitions.
@@ -37,3 +39,26 @@ class SQLModel(DeclarativeBase):
         for key in self.__mapper__.c.keys():
             _dict[key] = getattr(self, key)
         return _dict
+
+class ArrayOfStrings(TypeDecorator):
+    
+    impl = Text
+    cache_ok = True
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == 'postgresql':
+            return dialect.type_descriptor(ARRAY(Text()))
+        else:
+            return dialect.type_descriptor(JSON())
+
+    def process_bind_param(self, value, dialect):
+        if dialect.name == 'postgresql':
+            return value
+        if value is not None:
+            return json.dumps(value)
+
+    def process_result_value(self, value, dialect):
+        if dialect.name == 'postgresql':
+            return value
+        if value is not None:
+            return json.loads(value)

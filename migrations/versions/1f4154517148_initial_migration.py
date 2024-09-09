@@ -23,12 +23,16 @@ def upgrade() -> None:
     conn = op.get_bind()
     is_sqlite = conn.engine.name == 'sqlite'
 
-    answers_column = sa.Column('answers', sa.Text(), nullable=False) if is_sqlite else sa.Column('answers', postgresql.ARRAY(sa.Text()), nullable=False)
-    correct_answers_column = sa.Column('correct_answers', sa.Text(), nullable=False) if is_sqlite else sa.Column('correct_answers', postgresql.ARRAY(sa.Text()), nullable=False)
+    if is_sqlite:
+        answers_column = sa.Column('answers', sa.Text(), nullable=False)
+        correct_answers_column = sa.Column('correct_answers', sa.Text(), nullable=False)
+    else:
+        answers_column = sa.Column('answers', postgresql.ARRAY(sa.Text()), nullable=False)
+        correct_answers_column = sa.Column('correct_answers', postgresql.ARRAY(sa.Text()), nullable=False)
 
     op.create_table('questions',
         sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('question_text', sa.String(length=500), nullable=False),
+        sa.Column('question_text', sa.String(length=1000), nullable=False),
         answers_column,
         correct_answers_column,
         sa.PrimaryKeyConstraint('id')
