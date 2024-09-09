@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from app.models import questions
+from app.models.questions import QuestionModel
 
 from app.core.config import config as settings
 
@@ -32,7 +32,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [questions.MetaData]
+target_metadata = [QuestionModel.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

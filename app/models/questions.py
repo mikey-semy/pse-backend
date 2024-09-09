@@ -11,6 +11,6 @@ class QuestionModel(SQLModel):
     metadata = MetaData()
     
     id: Mapped[int] = mapped_column("id", primary_key=True, index=True)
-    question_text: Mapped[str] = mapped_column("question_text", String(500))
+    question_text: Mapped[str] = mapped_column("question_text", String(1000))
     answers: Mapped[List[str]] = mapped_column("answers", ARRAY(Text()))
     correct_answers: Mapped[List[str]] = mapped_column("correct_answers", ARRAY(Text()))
