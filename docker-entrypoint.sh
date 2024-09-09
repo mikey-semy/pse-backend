@@ -17,8 +17,8 @@ echo "Запуск скрипта docker-entrypoint.sh"
 #     echo "Обнаружена действительная версия alembic, обновление до последней версии"
 #     alembic upgrade head
 # fi
-echo "Удаление существующих файлов миграций"
-rm -f /usr/src/app/migrations/versions/*.py
+#echo "Удаление существующих файлов миграций"
+#rm -f /usr/src/app/migrations/versions/*.py
 echo "Создание новой миграции"
 alembic revision --autogenerate -m "Initial migration"
 echo "Применение миграции"
