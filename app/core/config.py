@@ -1,19 +1,15 @@
 
 import pprint
-from pydantic import BaseModel, Field
+from pydantic import Field
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
 from app.const import env_path
 
-class DatabaseModel(BaseModel):
-
-    dsn: str = Field(default=None)
-
 class Settings(BaseSettings):
 
-    db: DatabaseModel
+    dsn: str = Field(default=None)
 
     model_config = SettingsConfigDict(
         env_file=env_path,

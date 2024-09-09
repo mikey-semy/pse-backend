@@ -35,7 +35,7 @@ class DatabaseSession():
             settings (Any): Объект конфигурации. По умолчанию используется глобальный объект config.
         """
 
-        self.dsn = settings.db.dsn
+        self.dsn = settings.dsn
 
 
     def __get_dsn(self, dsn: str) -> str:
@@ -58,8 +58,7 @@ class DatabaseSession():
 
         return dsn
 
-    def __create_async_engine(self, dsn: str,
-                        engine_params: Dict[str, bool]) -> AsyncEngine:
+    def __create_async_engine(self, dsn: str) -> AsyncEngine:
         """
         Создает асинхронный движок SQLAlchemy.
 
@@ -74,7 +73,7 @@ class DatabaseSession():
 
         return async_engine
 
-    def __precreate_async_session_factory(self, async_engine: AsyncEngine, sessionmaker_params: Dict[str, Any]) -> AsyncSession:
+    def __precreate_async_session_factory(self, async_engine: AsyncEngine) -> AsyncSession:
         """
         Предварительно создает фабрику асинхронных сессий для операций с базой данных.
 
@@ -107,7 +106,7 @@ class DatabaseSession():
 
         async_engine = self.__create_async_engine(dsn)
 
-        session_factory = self.__precreate_async_session_factory(async_engine, self.sessionmaker_params)
+        session_factory = self.__precreate_async_session_factory(async_engine)
 
         return session_factory
     

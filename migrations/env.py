@@ -21,7 +21,7 @@ config = context.config
 section = config.config_ini_section
 
 
-config.set_section_option(section, "sqlalchemy.url", settings.db.dsn)
+config.set_section_option(section, "sqlalchemy.url", settings.dsn)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
