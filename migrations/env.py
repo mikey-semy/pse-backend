@@ -20,12 +20,8 @@ config = context.config
 
 section = config.config_ini_section
 
-dsn = settings.db_params
-if settings.db.env == "dev":
-    config.set_section_option(section, "sqlalchemy.url", f'{dsn["drivername"]}:///{dsn["name"]}')
-else:
-    db_url = f'{dsn["drivername"]}://{dsn["username"]}:{dsn["password"]}@{dsn["host"]}:{dsn["port"]}/{dsn["name"]}'
-    config.set_section_option(section, "sqlalchemy.url", db_url)
+
+config.set_section_option(section, "sqlalchemy.url", settings.db.dsn)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
