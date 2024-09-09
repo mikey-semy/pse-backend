@@ -37,9 +37,6 @@ class DatabaseSession():
 
         self.dsn_params = settings.db_params
 
-        self.engine_params = settings.db.engine.params
-
-        self.sessionmaker_params = settings.db.session.params
 
     def __get_dsn(self, dsn: str) -> str:
         """
@@ -89,7 +86,9 @@ class DatabaseSession():
             AsyncSession: Фабрика асинхронных сессий.
         """
         async_session_factory = async_sessionmaker(
-            **sessionmaker_params,
+            autocommit=False,
+            autoflush=False,
+            expire_on_commit=False,
             class_=AsyncSession,
             bind=async_engine,
         )
@@ -104,9 +103,9 @@ class DatabaseSession():
             AsyncSession: Фабрика асинхронных сессий.
         """
 
-        dsn = self.__create_dsn(self.dsn_params) #if len(self.dsn_params) > 1 else self.__get_dsn(self.dsn_params)
+        dsn = self.__create_dsn(self.dsn_params)
 
-        async_engine = self.__create_async_engine(dsn, self.engine_params)
+        async_engine = self.__create_async_engine(dsn, echo=True)
 
         session_factory = self.__precreate_async_session_factory(async_engine, self.sessionmaker_params)
 
