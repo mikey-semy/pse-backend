@@ -6,7 +6,7 @@ from pydantic import field_validator
 class QuestionSchema(BaseSchema):
     ''' This is the base class for post-related schemas. '''
     id: Optional[int] = None
-    question_type: str = None
+    question_type: Optional[str] = None
     question_text: str
     answers: Union[str, List[str]]
     correct_answers: Union[str, List[str]]
