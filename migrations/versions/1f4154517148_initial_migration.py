@@ -32,13 +32,16 @@ def upgrade() -> None:
 
     op.create_table('questions',
         sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('question_type', sa.String(length=512), nullable=True),
         sa.Column('question_text', sa.String(length=1024), nullable=False),
         answers_column,
         correct_answers_column,
+        sa.Column('created_at', sa.DateTime(), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_questions_id'), 'questions', ['id'], unique=False)
-
+   
 
 def downgrade() -> None:
     op.drop_index(op.f('ix_questions_id'), table_name='questions')
