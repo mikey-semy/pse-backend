@@ -1,5 +1,3 @@
-
-import pprint
 from pydantic import Field
 from pydantic_settings import (
     BaseSettings,
@@ -19,8 +17,3 @@ class Settings(BaseSettings):
     )
 
 config = Settings()
-
-# print("=============DB_SETTINGS=============")
-# pp = pprint.PrettyPrinter(indent=4)
-# pp.pprint(config.model_dump())
-# print("==================================")
