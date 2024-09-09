@@ -5,7 +5,6 @@ from sqlalchemy.types import ARRAY
 
 from app.models.base import SQLModel
 
-
 class QuestionModel(SQLModel):
     __tablename__ = "questions"
     

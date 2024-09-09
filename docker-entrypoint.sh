@@ -19,8 +19,8 @@ echo "Запуск скрипта docker-entrypoint.sh"
 # fi
 #echo "Удаление существующих файлов миграций"
 #rm -f /usr/src/app/migrations/versions/*.py
-echo "Создание новой миграции"
-alembic revision --autogenerate -m "Initial migration"
+#echo "Создание новой миграции"
+#alembic revision --autogenerate -m "Initial migration"
 echo "Применение миграции"
 alembic upgrade head
 echo "Запуск сервера uvicorn"
