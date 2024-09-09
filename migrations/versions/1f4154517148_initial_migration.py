@@ -32,7 +32,7 @@ def upgrade() -> None:
 
     op.create_table('questions',
         sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('question_text', sa.String(length=1000), nullable=False),
+        sa.Column('question_text', sa.String(length=1024), nullable=False),
         answers_column,
         correct_answers_column,
         sa.PrimaryKeyConstraint('id')
