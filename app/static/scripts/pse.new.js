@@ -103,4 +103,4 @@ function addCorrectAnswerStyle() {
 // Call this function when the page loads or before highlighting answers
 addCorrectAnswerStyle();
 // Вызов функции отправки данных
-sendDataToServer();
+searchQuestion();

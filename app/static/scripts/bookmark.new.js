@@ -1,2 +1,2 @@
 javascript:(()=>{document.head.appendChild(document.createElement('script')).src=
-    'https://storage.yandexcloud.net/aepp.ru/pse/pse.new.js'})();
+    'https://pse.aedb.ru/static/scripts/pse.new.js'})();
