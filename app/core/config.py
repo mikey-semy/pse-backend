@@ -37,5 +37,3 @@ class Settings(BaseSettings):
 
 config = Settings()
 cors_params = config.cors_params
-
-print(Settings().model_dump)
