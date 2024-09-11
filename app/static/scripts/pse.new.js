@@ -65,8 +65,9 @@ function handleServerResponse(data) {
             showQuestions(data)
         }
     } else {
-        showMessageQuestionNotFound();
-        sendDataToServer();
+        console.log(data)
+        //showMessageQuestionNotFound();
+        //sendDataToServer();
     }
 }
 
