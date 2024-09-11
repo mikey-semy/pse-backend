@@ -62,10 +62,11 @@ function handleServerResponse(data) {
         if (data.length == 1) {
             highlightCorrectAnswers(data[0].correct_answers);
         } else {
-            showQuestions(data)
+            console.log(data)
+            //showQuestions(data)
         }
     } else {
-        console.log(data)
+        
         //showMessageQuestionNotFound();
         //sendDataToServer();
     }
