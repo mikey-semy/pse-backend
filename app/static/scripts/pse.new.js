@@ -70,7 +70,7 @@ function handleServerResponse(data) {
     }
 }
 
-// Функция для подсветки правильных ответов
+
 function highlightCorrectAnswers(correctAnswers) {
     const answerElements = document.querySelectorAll(`.${classNameAnswers}`);
     answerElements.forEach((el, index) => {
@@ -100,7 +100,7 @@ function addCorrectAnswerStyle() {
     document.head.appendChild(style);
   }
   
-// Call this function when the page loads or before highlighting answers
+
 addCorrectAnswerStyle();
-// Вызов функции отправки данных
+
 searchQuestion();
