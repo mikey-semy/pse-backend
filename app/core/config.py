@@ -4,7 +4,7 @@ from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
 )
-from fastapi.middleware.cors import CORSMiddleware
+
 from app.const import env_path
 
 class Settings(BaseSettings):
@@ -19,13 +19,10 @@ class Settings(BaseSettings):
     @property
     def cors_params(self) -> Dict[str, Any]:
         return {
-            "middleware_class": CORSMiddleware,
-            "kwargs": {
-                "allow_origins": self.allow_origins,
-                "allow_credentials": self.allow_credentials,
-                "allow_methods": self.allow_methods,
-                "allow_headers": self.allow_headers,
-            }
+            "allow_origins": self.allow_origins,
+            "allow_credentials": self.allow_credentials,
+            "allow_methods": self.allow_methods,
+            "allow_headers": self.allow_headers,
         }
     
     model_config = SettingsConfigDict(
