@@ -1,16 +1,16 @@
 // Константы для идентификации элементов
-const classNameQuestion = 'h4.ant-typography.css-1y5hf77:not(.text-center)';
-const classNameAnswers = 'answer';
+const classNameQuestion_ = 'h4.ant-typography.css-1y5hf77:not(.text-center)';
+const classNameAnswers_ = 'answer';
 
 // Функция для получения текста вопроса
 function getQuestionText() {
-    const questionElement = document.querySelector(`h4.${classNameQuestion}`);
+    const questionElement = document.querySelector(`h4.${classNameQuestion_}`);
     return questionElement ? questionElement.textContent : null;
 }
 
 // Функция для получения текстов ответов
 function getAnswers() {
-    const answerElements = document.querySelectorAll(`.${classNameAnswers} .ant-typography`);
+    const answerElements = document.querySelectorAll(`.${classNameAnswers_} .ant-typography`);
     return Array.from(answerElements).map(el => el.textContent);
 }
 
