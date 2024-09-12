@@ -17,12 +17,12 @@ function getAnswers() {
 // Функция для поиска вопроса на сервере
 function searchQuestion() {
     let response = {
-        run: function (url) {
+        run: function (url_) {
             let headers = {
                 'accept': 'application/json',
             };
 
-            fetch(url, {
+            fetch(url_, {
                 'method': 'GET',
                 'mode': 'cors',
                 'credentials': 'include',
@@ -53,8 +53,8 @@ function searchQuestion() {
     };
 
     const questionText = getQuestionText();
-    const url = 'https://pse.aedb.ru/search?q=' + encodeURIComponent(questionText);
-    response.run(url);
+    const url_ = 'https://pse.aedb.ru/search?q=' + encodeURIComponent(questionText);
+    response.run(url_);
 };
 
 function handleServerResponse(data) {
