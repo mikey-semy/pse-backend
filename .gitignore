@@ -2,7 +2,6 @@
 lib
 deploy
 venv
-docs
 __pycache__
 *.pyc
 .env
