@@ -78,7 +78,7 @@ function handleServerResponse(data) {
 
 
 function highlightCorrectAnswers(correctAnswers) {
-    const answerElements = document.querySelectorAll(`.${classNameAnswers}`);
+    const answerElements = document.querySelectorAll(`.${classNameAnswers_}`);
     answerElements.forEach((el, index) => {
         if (correctAnswers.includes(index)) {
             el.classList.add('correct-answer');
