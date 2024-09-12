@@ -1,5 +1,5 @@
 // Константы для идентификации элементов
-const classNameQuestion = 'ant-typography';
+const classNameQuestion = 'ant-typography css-1y5hf77';
 const classNameAnswers = 'answer';
 
 // Функция для получения текста вопроса
