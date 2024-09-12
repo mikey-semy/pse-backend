@@ -54,7 +54,9 @@ function searchQuestion() {
     };
 
     const questionText = getQuestionText();
+    console.log(questionText);
     const url_ = 'https://pse.aedb.ru/search?q=' + encodeURIComponent(questionText);
+    console.log(url_);
     response.run(url_);
 };
 
