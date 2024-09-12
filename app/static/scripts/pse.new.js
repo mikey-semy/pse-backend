@@ -1,5 +1,5 @@
 // Константы для идентификации элементов
-const classNameQuestion = 'ant-typography css-1y5hf77';
+const classNameQuestion = 'h4.ant-typography.css-1y5hf77:not(.text-center)';
 const classNameAnswers = 'answer';
 
 // Функция для получения текста вопроса
