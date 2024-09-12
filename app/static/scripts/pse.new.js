@@ -45,6 +45,7 @@ function searchQuestion() {
         success: function (data) {
             console.log('Данные получены!');
             handleServerResponse(data)
+            console.log(data);
         },
 
         error: function (error) {
@@ -60,6 +61,7 @@ function searchQuestion() {
 function handleServerResponse(data) {
     if (data.length > 0) {
         if (data.length == 1) {
+            console.log(data[0].correct_answers)
             highlightCorrectAnswers(data[0].correct_answers);
         } else {
             console.log(data)
