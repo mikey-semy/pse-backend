@@ -78,9 +78,11 @@ function handleServerResponse(data) {
 
 
 function highlightCorrectAnswers(correctAnswers) {
-    console.log("correctAnswers: " + correctAnswers)
+    console.log("correctAnswers: ")
+    console.log(correctAnswers)
     const answerElements = document.querySelectorAll(`.${classNameAnswers_}`);
-    console.log("answerElements: " + answerElements)
+    console.log("answerElements: ")
+    console.log(answerElements)
     answerElements.forEach((el, index) => {
         if (correctAnswers.includes(index)) {
             console.log("correctAnswers.includes(index): " + correctAnswers.includes(index))
