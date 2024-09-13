@@ -78,9 +78,12 @@ function handleServerResponse(data) {
 
 
 function highlightCorrectAnswers(correctAnswers) {
+    console.log("correctAnswers: " + correctAnswers)
     const answerElements = document.querySelectorAll(`.${classNameAnswers_}`);
+    console.log("answerElements: " + answerElements)
     answerElements.forEach((el, index) => {
         if (correctAnswers.includes(index)) {
+            console.log("correctAnswers.includes(index): " + correctAnswers.includes(index))
             el.classList.add('correct-answer');
         }
     });
