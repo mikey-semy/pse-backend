@@ -9,11 +9,13 @@ from app.services.base import BaseService, BaseDataManager
 class QuestionService(BaseService):
     async def add_question(self, question: QuestionSchema) -> QuestionSchema:
         new_question = QuestionModel(
+            question_type=question.question_type,
             question_text=question.question_text,
             answers=question.answers,
             correct_answers=question.correct_answers
         )
         return await QuestionDataManager(self.session).add_question(new_question)
+    
     async def add_all_questions(self) -> None:
         with open('app/data/questions.json', 'r', encoding='utf-8') as file:
             questions = json.load(file)
@@ -30,12 +32,23 @@ class QuestionService(BaseService):
     async def update_question(self, question_id: int, updated_question: QuestionSchema
                               ) -> QuestionSchema:
         updated_question = QuestionModel(
+            question_type=updated_question.question_type,
             question_text=updated_question.question_text,
             answers=updated_question.answers,
             correct_answers=updated_question.correct_answers
         )
         return await QuestionDataManager(self.session).update_question(question_id, updated_question)
 
+    async def update_question_by_text(self, q: str, updated_question: QuestionSchema
+                              ) -> QuestionSchema:
+        updated_question = QuestionModel(
+            question_type=updated_question.question_type,
+            question_text=updated_question.question_text,
+            answers=updated_question.answers,
+            correct_answers=updated_question.correct_answers
+        )
+        return await QuestionDataManager(self.session).update_question_by_text(q, updated_question)
+    
     async def get_question(self, question_id: int) -> QuestionSchema:
         return await QuestionDataManager(self.session).get_question(question_id)
 
@@ -56,6 +69,15 @@ class QuestionDataManager(BaseDataManager):
         schema: QuestionSchema = await self.update_one(old_question, updated_question)
         return schema
 
+    async def update_question_by_text(self,
+                              q: str,
+                              updated_question: QuestionSchema) -> QuestionSchema | None:
+        old_question = await self.search_questions(q)[0]
+        if old_question == []:
+            return None
+        schema: QuestionSchema = await self.update_one(old_question, updated_question)
+        return schema
+    
     async def get_question(self, question_id: int) -> QuestionSchema | None:
         statement = select(QuestionModel).where(QuestionModel.id == question_id)
         schema: QuestionSchema = await self.get_one(statement)

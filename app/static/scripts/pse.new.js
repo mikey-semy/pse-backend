@@ -2,8 +2,10 @@
 const apiUrl = 'https://pse.aedb.ru/';
 
 // Константы для идентификации элементов
+const classNameQuestionType_ = 'ant-space-item';
 const classNameQuestion_ = 'ant-typography.css-1y5hf77:not(.text-center)';
 const classNameAnswers_ = 'answer';
+const classNameCorrectAnswers_ = 'answer-selected';
 
 // Объект с типами вопросов
 const QuestionTypes = {
@@ -41,15 +43,15 @@ function getAnswers() {
     return Array.from(answerElements).map(el => el.textContent);
 }
 
-// Функция для получения правильных ответов
+// Функция для получения правильных ответов 
 function getCorrectAnswers() {
-    const selectedAnswerElement = document.querySelector('.answer-selected .ant-typography');
+    const selectedAnswerElement = document.querySelector('.${classNameCorrectAnswers_} .ant-typography');
     return selectedAnswerElement ? [selectedAnswerElement.textContent] : [];
 }
 
 // Функция для получения типа вопроса
 function getQuestionType() {
-    const typeElement = document.querySelector('.ant-space-item .ant-typography');
+    const typeElement = document.querySelector('.${classNameQuestionType_} .ant-typography');
     const typeText = typeElement ? typeElement.textContent : '';
     
     // Определяем тип вопроса на основе текста
@@ -81,8 +83,8 @@ function sendAnswer(apiUrl = 'https://pse.aedb.ru/') {
         question_text: questionText || "Вопрос не найден",
         answers: answers,
         correct_answers: correctAnswers,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        created_at: new Date().toISOString(),   // Формируется автоматически
+        updated_at: new Date().toISOString()    // Формируется автоматически
     };
 
     fetch(apiUrlPost, {
@@ -104,6 +106,47 @@ function sendAnswer(apiUrl = 'https://pse.aedb.ru/') {
     })
     .catch(error => {
         console.error('Ошибка при отправке ответа:', error);
+    });
+}
+
+// Функция для обновления ответа по API
+function updateAnswer(apiUrl = 'https://pse.aedb.ru/') {
+    const questionType = getQuestionType();
+    const questionText = getQuestionText();
+    const answers = getAnswers();
+    const correctAnswers = getCorrectAnswers();
+    
+    const apiUrlPut = apiUrl + 'question?q=' + encodeURIComponent(questionText);
+
+    const payload = {
+        id: 0, // Формируется автоматически
+        question_type: questionType,
+        question_text: questionText || "Вопрос не найден",
+        answers: answers,
+        correct_answers: correctAnswers,
+        created_at: new Date().toISOString(),   // Формируется автоматически
+        updated_at: new Date().toISOString()    // Формируется автоматически
+    };
+
+    fetch(apiUrlPut, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сети: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Ответ успешно обновлен!', data);
+    })
+    .catch(error => {
+        console.error('Ошибка при обновлении ответа:', error);
     });
 }
 
@@ -158,17 +201,15 @@ function handleServerResponse(data) {
     if (data.length > 0) {
         // Если найден один ответ
         if (data.length == 1) {
-            console.log(data[0].correct_answers)
             highlightCorrectAnswers(data[0].correct_answers);
-        } else { 
-            // Или несколько ответов
-            console.log(data)
+        } else { // Или несколько ответов
+            highlightCorrectAnswers(data[0].correct_answers);
             showQuestions(data)
+            updateAnswer()
         }
-    } else {
-        // Или ответ не найден
+    } else {  // Или ответ не найден
         showMessageQuestionNotFound();
-        //sendAnswer(apiUrl)
+        updateAnswer()
     }
 }
 // Функция для отображения сообщения, если ответ не найден
@@ -207,11 +248,11 @@ function showQuestions(questions) {
                         <ul>
                             ${q.correct_answers.map(answer => `<li>${answer}</li>`).join('')}
                         </ul>
-                        ${q.answers.length > 0 ? `
-                        <p><em>Все варианты ответов:</em></p>
-                        <ul>
-                            ${q.answers.map(answer => `<li>${answer}</li>`).join('')}
-                        </ul>` : ''}
+                        // ${q.answers.length > 0 ? `
+                        // <p><em>Все варианты ответов:</em></p>
+                        // <ul>
+                        //     ${q.answers.map(answer => `<li>${answer}</li>`).join('')}
+                        // </ul>` : ''}
                     </div>
                 `).join('')}
             </div>
@@ -223,9 +264,6 @@ function showQuestions(questions) {
     setTimeout(() => {
         notification.remove();
     }, 10000);
-
-    // Стили для уведомления
-    addNotificationStyle();
 }
 
 
@@ -303,7 +341,9 @@ function addCorrectAnswerStyle() {
     document.head.appendChild(style);
   }
   
+// Подключение стилей
+addCorrectAnswerStyle(); 
+addNotificationStyle();
 
-addCorrectAnswerStyle();
-
+// Поиск вопроса при нажатии клавиши или нажатии на закладку
 searchQuestion();

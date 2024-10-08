@@ -20,6 +20,14 @@ async def add_all_questions(
 ) -> None:
     await QuestionService(session).add_all_questions()
 
+@router.put("/question")
+async def update_question_by_text(
+    question: QuestionSchema,
+    q: str = Query(..., min_length=3),
+    session: Session = Depends(get_db_session)
+) -> QuestionSchema:
+    return await QuestionService(session).update_question_by_text(q, question)
+
 @router.put("/{question_id}")
 async def update_question(
     question_id: int,
