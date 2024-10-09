@@ -76,7 +76,7 @@ class QuestionDataManager(BaseDataManager):
         print(f"old_question: {old_question}")
         if old_question == []:
             return None
-        if old_question > 1:
+        if len(old_question) > 1:
             schema: QuestionSchema = await self.update_one(old_question[0], updated_question)
         else:
             schema: QuestionSchema = await self.update_one(old_question, updated_question)
