@@ -72,10 +72,10 @@ class QuestionDataManager(BaseDataManager):
     async def update_question_by_text(self,
                               q: str,
                               updated_question: QuestionSchema) -> QuestionSchema | None:
-        old_question = await self.search_questions(q)[0]
+        old_question = await self.search_questions(q)
         if old_question == []:
             return None
-        schema: QuestionSchema = await self.update_one(old_question, updated_question)
+        schema: QuestionSchema = await self.update_one(old_question[0], updated_question)
         return schema
     
     async def get_question(self, question_id: int) -> QuestionSchema | None:
