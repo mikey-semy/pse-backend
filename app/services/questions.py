@@ -74,7 +74,6 @@ class QuestionDataManager(BaseDataManager):
                               updated_question: QuestionSchema) -> QuestionSchema | None:
         old_question = await self.search_questions(q)
         print(f"old_question: {old_question}")
-        print(f"old_question: {old_question[0]}")
         if old_question == []:
             return None
         if old_question > 1:
