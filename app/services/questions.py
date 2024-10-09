@@ -81,7 +81,7 @@ class QuestionDataManager(BaseDataManager):
         old_question = old_questions[0]  # Берем только первый вопрос
 
         # Преобразование Pydantic схемы в SQLAlchemy модель
-        question_to_update = await self.get_question_model(old_question.id)  # Получаем SQLAlchemy модель по ID
+        question_to_update = await self.get_question(old_question.id)  # Получаем SQLAlchemy модель по ID
 
         # Обновляем поля модели
         question_to_update.question_type = updated_question.question_type
