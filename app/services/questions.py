@@ -72,16 +72,24 @@ class QuestionDataManager(BaseDataManager):
     async def update_question_by_text(self,
                               q: str,
                               updated_question: QuestionSchema) -> QuestionSchema | None:
-        old_question = await self.search_questions(q)
+        old_questions = await self.search_questions(q)
 
-        if not old_question:  # Проверка на пустой список
+        if not old_questions:  # Проверка на пустой список
             return None
     
         # Если найдено несколько вопросов, выбираем первый
-        if len(old_question) > 1:
-            old_question = old_question[0]  # Берем только первый вопрос
+        old_question = old_questions[0]  # Берем только первый вопрос
 
-        schema: QuestionSchema = await self.update_one(old_question, updated_question)
+        # Преобразование Pydantic схемы в SQLAlchemy модель
+        question_to_update = await self.get_question_model(old_question.id)  # Получаем SQLAlchemy модель по ID
+
+        # Обновляем поля модели
+        question_to_update.question_type = updated_question.question_type
+        question_to_update.question_text = updated_question.question_text
+        question_to_update.answers = updated_question.answers
+        question_to_update.correct_answers = updated_question.correct_answers
+
+        schema: QuestionSchema = await self.update_one(question_to_update, updated_question)
         return schema
     
     async def get_question(self, question_id: int) -> QuestionSchema | None:
