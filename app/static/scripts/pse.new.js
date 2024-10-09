@@ -45,13 +45,13 @@ function getAnswers() {
 
 // Функция для получения правильных ответов 
 function getCorrectAnswers() {
-    const selectedAnswerElement = document.querySelector('.${classNameCorrectAnswers_} .ant-typography');
+    const selectedAnswerElement = document.querySelector(`.${classNameCorrectAnswers_} .ant-typography`);
     return selectedAnswerElement ? [selectedAnswerElement.textContent] : [];
 }
 
 // Функция для получения типа вопроса
 function getQuestionType() {
-    const typeElement = document.querySelector('.${classNameQuestionType_} .ant-typography');
+    const typeElement = document.querySelector(`.${classNameQuestionType_} .ant-typography`);
     const typeText = typeElement ? typeElement.textContent : '';
     
     // Определяем тип вопроса на основе текста
