@@ -209,7 +209,7 @@ function handleServerResponse(data) {
         }
     } else {  // Или ответ не найден
         showMessageQuestionNotFound();
-        updateAnswer()
+        addAnswer()
     }
 }
 // Функция для отображения сообщения, если ответ не найден
