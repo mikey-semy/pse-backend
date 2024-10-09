@@ -208,13 +208,13 @@ function handleServerResponse(data) {
         if (data.length == 1) {
             highlightCorrectAnswers(data[0].correct_answers);
         } else { // Или несколько ответов
-            highlightCorrectAnswers(data[0].correct_answers);
+            // highlightCorrectAnswers(data[0].correct_answers);
             showQuestions(data)
-            updateAnswer()
+            // updateAnswer()
         }
     } else {  // Или ответ не найден
         showMessageQuestionNotFound();
-        addAnswer()
+        // addAnswer()
     }
 }
 // Функция для отображения сообщения, если ответ не найден
@@ -253,11 +253,6 @@ function showQuestions(questions) {
                         <ul>
                             ${q.correct_answers.map(answer => `<li>${answer}</li>`).join('')}
                         </ul>
-                        // ${q.answers.length > 0 ? `
-                        // <p><em>Все варианты ответов:</em></p>
-                        // <ul>
-                        //     ${q.answers.map(answer => `<li>${answer}</li>`).join('')}
-                        // </ul>` : ''}
                     </div>
                 `).join('')}
             </div>
@@ -268,7 +263,7 @@ function showQuestions(questions) {
     // Удаляем уведомление через 10 секунд
     setTimeout(() => {
         notification.remove();
-    }, 10000);
+    }, 20000);
 }
 
 
