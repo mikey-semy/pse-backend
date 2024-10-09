@@ -73,13 +73,15 @@ class QuestionDataManager(BaseDataManager):
                               q: str,
                               updated_question: QuestionSchema) -> QuestionSchema | None:
         old_question = await self.search_questions(q)
-        print(f"old_question: {old_question}")
-        if old_question == []:
+
+        if not old_question:  # Проверка на пустой список
             return None
+    
+        # Если найдено несколько вопросов, выбираем первый
         if len(old_question) > 1:
-            schema: QuestionSchema = await self.update_one(old_question[0], updated_question)
-        else:
-            schema: QuestionSchema = await self.update_one(old_question, updated_question)
+            old_question = old_question[0]  # Берем только первый вопрос
+
+        schema: QuestionSchema = await self.update_one(old_question, updated_question)
         return schema
     
     async def get_question(self, question_id: int) -> QuestionSchema | None:
