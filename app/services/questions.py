@@ -73,9 +73,14 @@ class QuestionDataManager(BaseDataManager):
                               q: str,
                               updated_question: QuestionSchema) -> QuestionSchema | None:
         old_question = await self.search_questions(q)
+        print(f"old_question: {old_question}")
+        print(f"old_question: {old_question[0]}")
         if old_question == []:
             return None
-        schema: QuestionSchema = await self.update_one(old_question[0], updated_question)
+        if old_question > 1:
+            schema: QuestionSchema = await self.update_one(old_question[0], updated_question)
+        else:
+            schema: QuestionSchema = await self.update_one(old_question, updated_question)
         return schema
     
     async def get_question(self, question_id: int) -> QuestionSchema | None:
