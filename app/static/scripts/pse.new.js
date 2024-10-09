@@ -193,7 +193,12 @@ function searchQuestion(apiUrl = 'https://pse.aedb.ru/') {
             console.log('Ошибка: ', error);
         }
     };
-    response.run(apiUrlGet);
+    if (questionText) {
+        response.run(apiUrlGet);
+    } else {
+        console.log('Ну нет же...');
+    }
+        
 };
 
 function handleServerResponse(data) {
