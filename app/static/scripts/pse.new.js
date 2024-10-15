@@ -45,7 +45,7 @@ function getAnswers() {
 
 // Функция для получения правильных ответов 
 function getCorrectAnswers() {
-    const selectedAnswerElement = document.querySelector(`.${classNameCorrectAnswers_} .ant-typography`);
+    const selectedAnswerElement = document.querySelectorAll(`.${classNameCorrectAnswers_} .ant-typography`);
     return selectedAnswerElement ? [selectedAnswerElement.textContent] : [];
 }
 
