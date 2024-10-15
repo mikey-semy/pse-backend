@@ -52,8 +52,9 @@ function getCorrectAnswers() {
 // Функция для получения типа вопроса
 function getQuestionType() {
     const typeElement = document.querySelector(`.${classNameQuestionType_} .ant-typography`);
+    console.log('typeElement: ' + typeElement);
     const typeText = typeElement ? typeElement.textContent : '';
-    
+    console.log('typeText: ' + typeText);
     // Определяем тип вопроса на основе текста
     if (typeText.includes('один правильный ответ')) {
         return 'MC'; // Множественный выбор
