@@ -193,12 +193,11 @@ function searchQuestion(apiUrl = 'https://pse.aedb.online/') {
             console.log('Ошибка: ', error);
         }
     };
-
-    const questionText = getQuestionText();
-    console.log(questionText);
-    const url_ = 'https://pse.aedb.online/search?q=' + encodeURIComponent(questionText);
-    console.log(url_);
-    response.run(url_);
+    if (questionText) {
+        response.run(apiUrlGet);
+    } else {
+        console.log('Ну нет же...');
+    }
 };
 
 function handleServerResponse(data) {
