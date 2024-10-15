@@ -1,5 +1,5 @@
 // Ссылка на API
-const apiUrl = 'https://pse.aedb.ru/';
+const apiUrl = 'https://pse.aedb.online/';
 
 // Константы для идентификации элементов
 const classNameQuestionType_ = 'ant-space-item';
