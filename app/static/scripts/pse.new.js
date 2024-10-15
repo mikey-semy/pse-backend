@@ -2,7 +2,7 @@
 const apiUrl = 'https://pse.aedb.online/';
 
 // Константы для идентификации элементов
-const classNameQuestionType_ = 'ant-space-item';
+const classNameQuestionType_ = 'ant-typography.css-1y5hf77:not(.text-center)';
 const classNameQuestion_ = 'ant-typography.css-1y5hf77:not(.text-center)';
 const classNameAnswers_ = 'answer';
 const classNameCorrectAnswers_ = 'answer-selected';
@@ -51,10 +51,8 @@ function getCorrectAnswers() {
 
 // Функция для получения типа вопроса
 function getQuestionType() {
-    const typeElement = document.querySelector(`.${classNameQuestionType_} .ant-typography`);
-    console.log(typeElement);
+    const typeElement = document.querySelector(`div.${classNameQuestionType_}`);
     const typeText = typeElement ? typeElement.textContent : '';
-    console.log('typeText: ' + typeText);
     // Определяем тип вопроса на основе текста
     if (typeText.includes('один правильный ответ')) {
         return 'MC'; // Множественный выбор
