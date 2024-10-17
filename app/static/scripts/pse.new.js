@@ -200,29 +200,102 @@ function searchQuestion(apiUrl = 'https://pse.aedb.online/') {
 };
 
 function handleServerResponse(data) {
-    // Если ответы найдены
+    // Если вопросы найдены
     if (data.length > 0) {
-        // Если найден один ответ
+        // Если найден один вопрос
         if (data.length == 1) {
-            highlightCorrectAnswers(data[0].correct_answers);
+            // Имеются ли ответы
+            if (data.answers) {
+                    // Имеются ли правильные ответы
+                    if (data.correct_answers) {
+                        highlightCorrectAnswers(data[0].correct_answers);
+                    } else {
+                        showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+                    }
+            } else {
+                showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+            }
         } else { // Или несколько ответов
             // highlightCorrectAnswers(data[0].correct_answers);
-            showQuestions(data)
+            showNotification('questions', 'Найдены несколько ответов:', data, 20000);
             // updateAnswer()
         }
     } else {  // Или ответ не найден
-        showMessageQuestionNotFound();
+        showNotification('error', 'Вопрос не найден!', 'Пожалуйста, добавьте новый вопрос с выбраными ответами.');
         // addAnswer()
     }
 }
+
+function showNotification(type, title, message, duration = 5000) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <h4>${title}</h4>
+            <p>${message}</p>
+        </div>
+    `;
+    document.body.appendChild(notification);
+
+    const closeTimeout = setTimeout(() => {
+        notification.remove();
+    }, duration);
+
+    notification.addEventListener('click', () => {
+        clearTimeout(closeTimeout);
+        notification.remove();
+    });
+
+    addNotificationStyle();
+
+    if (type === 'questions') {
+        const questionsList = notification.querySelector('.notification-content');
+        questionsList.innerHTML += `
+            <div class="questions-list">
+                ${message.map(q => `
+                    <div class="question-item">
+                        <strong>${q.question_text}</strong>
+                        <p><em>Правильные ответы:</em></p>
+                        <ul>
+                            ${q.correct_answers.map(answer => `<li>${answer}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+}
+
+
 // Функция для отображения сообщения, если ответ не найден
 function showMessageQuestionNotFound() {
     const message = document.createElement('div');
     message.className = 'notification';
     message.innerHTML = `
         <div class="notification-content">
-            <h4>Ответ не найден!</h4>
-            <p>Пожалуйста, добавьте новый ответ.</p>
+            <h4>Вопрос не найден!</h4>
+            <p>Пожалуйста, добавьте новый вопрос с выбраными ответами.</p>
+        </div>
+    `;
+    document.body.appendChild(message);
+
+    // Удаляем уведомление через 5 секунд
+    setTimeout(() => {
+        message.remove();
+    }, 5000);
+
+    // Стили для уведомления
+    addNotificationStyle();
+}
+
+// Функция для отображения сообщения, если ответ не найден
+function showMessageAnswersNotFound() {
+    const message = document.createElement('div');
+    message.className = 'notification';
+    message.innerHTML = `
+        <div class="notification-content">
+            <h4>Правильные ответы не найдены!</h4>
+            <p>Пожалуйста, выберите правильный ответ и обновите.</p>
         </div>
     `;
     document.body.appendChild(message);

@@ -9,8 +9,8 @@ templates = Jinja2Templates(directory=str(templates_path))
 router = APIRouter()
 
 nav_items = [
-        {"route": "manual_search", "icon": "📄", "title": "Ручной поиск"},
-        {"route": "auto_search", "icon": "⚡️", "title": "Автоматический поиск"}
+        {"route": "manual_search", "icon": "🔍", "title": "Ручной поиск"},
+        {"route": "auto_search", "icon": "🚀", "title": "Автоматический поиск"}
     ]
 
 @router.get("/", response_class=HTMLResponse)
