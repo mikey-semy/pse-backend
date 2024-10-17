@@ -1,11 +1,18 @@
-<header id="header" class="header">
-    <nav>
-        <a href="/"><div id="logo" class="logo">PSE</div></a>
-        <div class="menu-icon">&#9776;</div>
-        <ul class="nav-menu">
-            <li><a href="/search">Поиск</a></li>
-            <li><a href="/add">Добавление</a></li>
-            <li><a href="/study">Подготовка</a></li>
+<header id="header" class="app-header app-header--fixed-top">
+    <a id="logo" class="logo" href="/">
+        PSE 
+    </a>
+    <nav class="nav">
+        <div class="nav__icon">&#9776;</div>
+        <ul class="nav__items">
+            {% for item in nav_items %}
+            <li class="nav__item">
+                <a class="nav--link" href="{{ url_for(item.route) }}">
+                    <span class='nav__item--icon'>{{ item.icon }}</span>
+                    <span class='nav__item--title'>{{ item.title }}</span>
+                </a>
+            </li>
+            {% endfor %}
         </ul>
     </nav>
 </header>

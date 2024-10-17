@@ -38,27 +38,6 @@ body::-webkit-scrollbar-thumb {
   border-radius: 4px;
 }
 
-/* @font-face {
-    font-family: 'LilitaOne';
-    src: url('../fonts/LilitaOne-Regular.ttf');
-} */
-
-.logo {
-		color: var(--color-logo);
-		font-family: 'LilitaOne';
-		font-size: 40px;
-		font-weight:bold;
-		text-transform: uppercase;
-        letter-spacing: 1px;
-		/* background:url(../images/bg-logo.avif) no-repeat center/cover; */
-		/* -webkit-background-clip:text; */
-  		/* -webkit-text-fill-color: transparent; */
-}
-
-.logo--scrolled {
-    font-size: 18px;
-    transition: .45s ease all;
-}
 
 html, body {
     height: 100%;
@@ -77,80 +56,89 @@ body {
     line-height: 1.5; 
 }
 
-.header {
-    background-color: var(--color-header-bg);
-    color: var(--color-header-text);
-    padding: 16px;
-    transition: all 0.3s ease;
-}
-
-.header__content {
+.app-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 100%;
-}
-
-.header--fixed-top {
+    justify-content: space-evenly;
+    background: #24292e;
+    color: #ffffff;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1;
+    padding: 4px 24px;
+    align-items: center;
+}
+    
+.app-header--fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+        
+.logo {
+    position: relative;
+    font-size: 30px;
+    font-weight: 500;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.header--scrolled {
-    height: 30px;
-    padding-top: 0px
+.nav {
+    margin-left: 24px;
 }
+  
+  
+.nav__icon {
+    display: none;
+    font-style: 24px;
+    cursor: pointer;
+}
+    
+    
+.nav__items {
+    display: flex;
+}
+    
 
-.header--scrolled .logo,
-.header--scrolled .nav-menu {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    transform: scale(0.8); /* Slightly reduce the size of logo and menu text */
+.nav__item {
+    list-style: none;
+}
+    
+
+.nav--link {
+    margin-right: 16px;
+    color: #ffffff;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+      
+      
+.nav--link:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+        
+
+.nav--link:hover, .nav--link:active {
+    transform: scale(1.1);
     transition: transform 0.3s ease;
 }
 
-
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav a {
-    color: var(--color-header-text);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: var(--color-primary);
-}
-
-nav a:active {
-    color: var(--color-secondary);
-}
-
-main {
+.app-main {
     flex: 1 0 auto;
-    max-width: 1000px;
+    display: flex;
+    justify-content: center;
     margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 80px 0 0 20px;
 }
+    
 
 .post-container {
     margin-top: 20px;
