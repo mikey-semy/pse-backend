@@ -163,20 +163,20 @@ input {
   font-size: 16px;
 }
 
-#search-result {
+#search-results {
   display: flex;
   flex-direction: column;
   list-style: none;
   padding: 20px;
 }
 
-#search-result > li {
+#search-results > li {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-#search-result > li > p {
+#search-results > li > p {
   text-align: start;
   margin: 10px;
 }
