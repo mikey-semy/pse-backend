@@ -15,8 +15,6 @@ nav_items = [
 
 @router.get("/", response_class=HTMLResponse)
 async def homepage(request: Request):
-    
-    
     context = {
         "title": "PSE",
         "nav_items": nav_items

@@ -4,6 +4,39 @@
 
 {% block content %}
 
-    <h1>Ручной поиск</h1>
+<div class="search-container">
+    <input type="text" id="search-input" placeholder="Введите текст для поиска">
+    <button id="search-button">Поиск</button>
+</div>
+<ul id="search-results"></ul>
+
+<script>
+document.getElementById('search-button').addEventListener('click', performSearch);
+document.getElementById('search-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
+});
+
+function performSearch() {
+    const searchQuery = document.getElementById('search-input').value;
+    fetch(`/search?q=${encodeURIComponent(searchQuery)}`)
+        .then(response => response.json())
+        .then(data => {
+            const searchResults = document.getElementById('search-results');
+            searchResults.innerHTML = '';
+            data.forEach(result => {
+                const resultItem = document.createElement('li');
+                resultItem.innerHTML = `
+                    <h3>${result.title}</h3>
+                    <p>${result.snippet}</p>
+                    <a href="${result.url}" target="_blank">Подробнее</a>
+                `;
+                searchResults.appendChild(resultItem);
+            });
+        })
+        .catch(error => console.error('Ошибка:', error));
+}
+</script>
 
 {% endblock %}
