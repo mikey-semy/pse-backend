@@ -22,7 +22,7 @@ async def homepage(request: Request):
 
     return templates.TemplateResponse(
         request=request,
-        name="index.html",
+        name="manual_search.html",
         context=context
     )
 
