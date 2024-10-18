@@ -28,9 +28,12 @@ function performSearch() {
             data.forEach(result => {
                 const resultItem = document.createElement('li');
                 resultItem.innerHTML = `
-                    <h3>${result.title}</h3>
-                    <p>${result.snippet}</p>
-                    <a href="${result.url}" target="_blank">Подробнее</a>
+                    <h3>${result.question_text}</h3>
+                    <p>Тип вопроса: ${result.question_type || 'Не указан'}</p>
+                    <p>Ответы: ${Array.isArray(result.answers) ? result.answers.join(', ') : result.answers}</p>
+                    <p>Правильные ответы: ${Array.isArray(result.correct_answers) ? result.correct_answers.join(', ') : result.correct_answers}</p>
+                    <p>Создан: ${new Date(result.created_at).toLocaleString()}</p>
+                    <p>Обновлен: ${new Date(result.updated_at).toLocaleString()}</p>
                 `;
                 searchResults.appendChild(resultItem);
             });
