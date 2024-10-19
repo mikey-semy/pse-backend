@@ -25,18 +25,33 @@ function performSearch() {
         .then(data => {
             const searchResults = document.getElementById('search-results');
             searchResults.innerHTML = '';
-            data.forEach(result => {
-                const resultItem = document.createElement('li');
-                resultItem.innerHTML = `
-                    <h3>${result.question_text}</h3>
-                    <p>Тип вопроса: ${result.question_type || 'Не указан'}</p>
-                    <p>Ответы: ${Array.isArray(result.answers) ? result.answers.join(', ') : result.answers}</p>
-                    <p>Правильные ответы: ${Array.isArray(result.correct_answers) ? result.correct_answers.join(', ') : result.correct_answers}</p>
-                    <p>Создан: ${new Date(result.created_at).toLocaleString()}</p>
-                    <p>Обновлен: ${new Date(result.updated_at).toLocaleString()}</p>
-                `;
-                searchResults.appendChild(resultItem);
-            });
+
+            if (data.length === 0) {
+                // Если нет результатов, выводим сообщение
+                const noResultsItem = document.createElement('li');
+                noResultsItem.textContent = 'Вопрос не найден.';
+                searchResults.appendChild(noResultsItem);
+            } else {
+                // Если есть результаты, выводим их
+                data.forEach(result => {
+                    const resultItem = document.createElement('li');
+                    resultItem.innerHTML = `
+                        <h3>${result.question_text}</h3>
+                        <p>Тип вопроса: ${result.question_type || 'Не указан'}</p>
+                        <p>Ответы:</p>
+                        <ul>
+                            ${Array.isArray(result.answers) ? result.answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.answers}</li>`}
+                        </ul>
+                        <p>Правильные ответы:</p>
+                        <ul>
+                            ${Array.isArray(result.correct_answers) ? result.correct_answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.correct_answers}</li>`}
+                        </ul>
+                        <p>Создан: ${new Date(result.created_at).toLocaleString()}</p>
+                        <p>Обновлен: ${new Date(result.updated_at).toLocaleString()}</p>
+                    `;
+                    searchResults.appendChild(resultItem);
+                });
+            }
         })
         .catch(error => console.error('Ошибка:', error));
 }
