@@ -37,15 +37,16 @@ function performSearch() {
                     const resultItem = document.createElement('li');
                     resultItem.innerHTML = `
                         <h3>${result.question_text}</h3>
-                        <p>Тип вопроса: ${result.question_type || 'Не указан'}</p>
+                        ${result.question_type ? `
+                            <p>Тип вопроса: ${result.question_type}</p>
+                        ` : ''}
+                        <p>Правильные ответы:</p>
+                        ${result.answers ? `
                         <p>Ответы:</p>
                         <ul>
                             ${Array.isArray(result.answers) ? result.answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.answers}</li>`}
                         </ul>
-                        <p>Правильные ответы:</p>
-                        <ul>
-                            ${Array.isArray(result.correct_answers) ? result.correct_answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.correct_answers}</li>`}
-                        </ul>
+                        ` : ''}
                         <p>Создан: ${new Date(result.created_at).toLocaleString()}</p>
                         <p>Обновлен: ${new Date(result.updated_at).toLocaleString()}</p>
                     `;
