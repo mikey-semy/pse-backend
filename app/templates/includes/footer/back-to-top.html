@@ -5,7 +5,7 @@
         console.log('Button found:', backToTopButton); // Проверяем, что кнопка найдена
     
         window.addEventListener('scroll', function() {
-            console.log('Scroll position:', window.scrollY); // Проверяем значение scrollY
+            console.log('Scroll position:', document.scrollY); // Проверяем значение scrollY
             if (window.scrollY > 300) {
                 backToTopButton.style.display = 'flex';
                 console.log('Button displayed'); // Проверяем, что кнопка отображается
