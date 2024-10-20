@@ -1,1 +1,18 @@
 <button id="back-to-top" title="Back to Top">⬆️</button>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopButton.style.display = 'flex'; // Изменяем на 'flex' для центрирования
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    });
+</script>
