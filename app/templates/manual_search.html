@@ -5,6 +5,7 @@
 {% block content %}
 
 <div class="search-container">
+    
     <input type="text" id="search-input" class="search-input" placeholder="Введите текст для поиска">
     <button id="search-button" class="search-button search-button__icon"></button>
 </div>
@@ -37,18 +38,23 @@ function performSearch() {
                     const resultItem = document.createElement('li');
                     resultItem.innerHTML = `
                         <h3>${result.question_text}</h3>
+
                         ${result.question_type ? `
-                            <p>Тип вопроса: ${result.question_type}</p>
+                        <p>Тип вопроса: ${result.question_type}</p>
                         ` : ''}
-                        <p>Правильные ответы:</p>
+                        
                         ${result.answers ? `
                         <p>Ответы:</p>
                         <ul>
-                            ${Array.isArray(result.answers) ? result.answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.answers}</li>`}
+                        ${Array.isArray(result.answers) ? result.answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.answers}</li>`}
                         </ul>
                         ` : ''}
-                        <p>Создан: ${new Date(result.created_at).toLocaleString()}</p>
-                        <p>Обновлен: ${new Date(result.updated_at).toLocaleString()}</p>
+                        
+                        <p>Правильные ответы:</p>
+                        <ul>
+                            ${Array.isArray(result.correct_answers) ? result.correct_answers.map(answer => `<li>${answer}</li>`).join('') : `<li>${result.correct_answers}</li>`}
+                        </ul>
+                        
                     `;
                     searchResults.appendChild(resultItem);
                 });
