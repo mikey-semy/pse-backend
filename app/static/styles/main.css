@@ -58,6 +58,28 @@ body {
     font-size: 16px;
 }
 
+#back-to-top {
+  position: fixed; /* Фиксированное положение */
+  bottom: 20px; /* Отступ от нижнего края */
+  right: 20px; /* Отступ от правого края */
+  background-color: #007bff; /* Цвет фона кнопки */
+  color: white; /* Цвет текста/иконки */
+  border: none; /* Убираем рамку */
+  border-radius: 50%; /* Делаем кнопку круглой */
+  width: 50px; /* Ширина кнопки */
+  height: 50px; /* Высота кнопки */
+  display: none; /* Скрываем кнопку по умолчанию */
+  align-items: center; /* Центрируем содержимое по вертикали */
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  cursor: pointer; /* Указываем, что это кнопка */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Тень для кнопки */
+  transition: background-color 0.3s; /* Плавный переход цвета фона */
+}
+
+#back-to-top:hover {
+  background-color: #0056b3; /* Цвет фона при наведении */
+}
+
 .content {
   padding: 0 20px;
   
