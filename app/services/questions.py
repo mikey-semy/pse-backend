@@ -56,7 +56,8 @@ class QuestionService(BaseService):
         return await QuestionDataManager(self.session).get_questions()
 
     async def get_quantity(self) -> int:
-        return await QuestionDataManager(self.session).get_quantity()
+        result = await QuestionDataManager(self.session).get_questions()
+        return len(result)
     
     async def get_duplicates(self) -> int:
         return await QuestionDataManager(self.session).get_duplicate_count_by_question_text()
@@ -109,11 +110,6 @@ class QuestionDataManager(BaseDataManager):
         for model in models:
             schemas.append(QuestionSchema(**model.to_dict))
         return schemas
-    
-    async def get_quantity(self) -> int:
-        statement = select(QuestionModel)
-        result = await self.session.execute(statement)
-        return result.scalars().count()
     
     async def get_duplicate_count_by_question_text(self) -> int:
         # Получаем количество дубликатов по question_text
