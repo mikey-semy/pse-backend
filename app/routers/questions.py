@@ -53,3 +53,15 @@ async def get_questions(
     session: Session = Depends(get_db_session)
 ) -> List[QuestionSchema]:
     return await QuestionService(session).get_questions()
+
+@router.get("/quantity", response_model=int)
+async def get_quantity(
+    session: Session = Depends(get_db_session)
+) -> int:
+    return await QuestionService(session).get_quantity()
+
+@router.get("/duplicates_count", response_model=int)
+async def get_duplicates(
+    session: Session = Depends(get_db_session)
+) -> int:
+    return await QuestionService(session).get_duplicates()

@@ -1,6 +1,6 @@
 from typing import List
 import json
-from sqlalchemy import select
+from sqlalchemy import select, func
 
 from app.models.questions import QuestionModel
 from app.schemas.questions import QuestionSchema
@@ -55,6 +55,12 @@ class QuestionService(BaseService):
     async def get_questions(self) -> List[QuestionSchema]:
         return await QuestionDataManager(self.session).get_questions()
 
+    async def get_quantity(self) -> int:
+        return await QuestionDataManager(self.session).get_quantity()
+    
+    async def get_duplicates(self) -> int:
+        return await QuestionDataManager(self.session).get_duplicate_count_by_question_text()
+    
     async def search_questions(self, q: str) -> List[QuestionSchema]:
         return await QuestionDataManager(self.session).search_questions(q)
 
@@ -103,6 +109,28 @@ class QuestionDataManager(BaseDataManager):
         for model in models:
             schemas.append(QuestionSchema(**model.to_dict))
         return schemas
+    
+    async def get_quantity(self) -> int:
+        statement = select(QuestionModel)
+        result = await self.session.execute(statement)
+        return result.scalars().count()
+    
+    async def get_duplicate_count_by_question_text(self) -> int:
+        # Получаем количество дубликатов по question_text
+        subquery = (
+            select(
+                QuestionModel.question_text,
+                func.count(QuestionModel.id).label('count')
+            )
+            .group_by(QuestionModel.question_text)
+            .having(func.count(QuestionModel.id) > 1)
+            .subquery()
+        )
+
+        statement = select(func.sum(subquery.c.count))  # Суммируем количество дубликатов
+
+        result = await self.session.execute(statement)
+        return result.scalar() or 0  # Возвращаем общее количество дубликатов
 
     async def search_questions(self, q: str) -> List[QuestionSchema]:
         statement = select(QuestionModel).where(QuestionModel.question_text.ilike(f"%{q}%"))
