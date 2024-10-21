@@ -209,35 +209,21 @@ function searchQuestion(apiUrl = 'https://pse.aedb.online/') {
 function handleServerResponse(data) {
     // Если вопросы найдены
     if (data.length > 0) {
-        // Если найден один вопрос
-        if (data.length == 1) {
-            const question = data[0]; // Получаем первый вопрос
-            // Имеются ли ответы
-            if (question.answers && question.answers.length > 0) {
-                // Имеются ли правильные ответы
-                if (question.correct_answers && question.correct_answers.length > 0) {
-                    highlightCorrectAnswers(question.correct_answers);
-                } else {
-                    showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
-                }
+        const question = data[0]; // Получаем первый вопрос
+
+        // Проверяем наличие ответов
+        if (question.answers && question.answers.length > 0) {
+            // Проверяем наличие правильных ответов
+            if (question.correct_answers && question.correct_answers.length > 0) {
+                highlightCorrectAnswers(question.correct_answers);
             } else {
-                showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
-                // Имеются ли правильные ответы
-                if (question.correct_answers && question.correct_answers.length > 0) {
-                    highlightCorrectAnswers(question.correct_answers);
-                } else {
-                    showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
-                }
+                showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
             }
-        } else { // Или несколько ответов
-            highlightCorrectAnswers(data[0].correct_answers);
-            showNotification('error', 'Несколько вариантов ответов!', 'Выбран первый...');
-            // showNotification('questions', 'Найдены несколько ответов:', data, 20000);
-            // updateAnswer()
+        } else {
+            showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
         }
     } else {  // Или ответ не найден
         showNotification('error', 'Вопрос не найден!', 'Пожалуйста, добавьте новый вопрос с выбранными ответами.');
-        // addAnswer()
     }
 }
 
