@@ -9,12 +9,13 @@ from app.services.base import BaseService, BaseDataManager
 class QuestionService(BaseService):
 
     async def question_exists(self, question_text: str) -> bool:
-        return await self.session.query(QuestionModel).filter(QuestionModel.question_text == question_text).first() is not None
+        question = await QuestionDataManager(self.session).get_question_by_text(question_text)
+        return question is not None
     async def add_question(self, question: QuestionSchema) -> QuestionSchema:
         
         if await self.question_exists(question.question_text):
             raise ValueError("Вопрос уже существует в базе данных.")
-            
+
         new_question = QuestionModel(
             question_type=question.question_type,
             question_text=question.question_text,
@@ -108,6 +109,11 @@ class QuestionDataManager(BaseDataManager):
     
     async def get_question(self, question_id: int) -> QuestionSchema | None:
         statement = select(QuestionModel).where(QuestionModel.id == question_id)
+        schema: QuestionSchema = await self.get_one(statement)
+        return schema
+
+    async def get_question_by_text(self, question_text: str) -> QuestionSchema | None:
+        statement = select(QuestionModel).where(QuestionModel.question_text == question_text)
         schema: QuestionSchema = await self.get_one(statement)
         return schema
 
