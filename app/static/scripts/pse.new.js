@@ -220,9 +220,15 @@ function handleServerResponse(data) {
                 showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
             }
         } else {
-            showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+            // Если ответы отсутствуют, но есть правильные ответы
+            if (question.correct_answers && question.correct_answers.length > 0) {
+                highlightCorrectAnswers(question.correct_answers);
+                showNotification('warning', 'Ответы отсутствуют!', 'Но правильные ответы найдены.');
+            } else {
+                showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+            }
         }
-    } else {  // Или ответ не найден
+    } else {  // Если вопрос не найден
         showNotification('error', 'Вопрос не найден!', 'Пожалуйста, добавьте новый вопрос с выбранными ответами.');
     }
 }
