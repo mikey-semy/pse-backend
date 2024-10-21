@@ -247,14 +247,38 @@ input {
     right: 0;
     z-index: 1;
 }
-        
+@font-face {
+  font-family: 'Squada One';
+  src: url('/static/fonts/SquadaOne-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .logo {
     position: relative;
+    font-family: 'Squada One', sans-serif;
     font-size: 32px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-header-text);
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: all 0.3s ease; /* Плавный переход */
+}
+
+.logo:hover {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Яркая тень */
+  color: #fff; /* Цвет текста при наведении */
+}
+
+.logo-link {
+  display: inline-block; /* Позволяет применять стили к ссылке */
+  text-decoration: none; /* Убирает подчеркивание */
+}
+
+/* Отключаем эффект при наведении на ссылку */
+.logo-link:hover .logo {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Яркая тень */
+  color: #fff; /* Цвет текста при наведении */
 }
 
 .nav {
