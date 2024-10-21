@@ -7,7 +7,14 @@ from app.schemas.questions import QuestionSchema
 from app.services.base import BaseService, BaseDataManager
 
 class QuestionService(BaseService):
+
+    async def question_exists(self, question_text: str) -> bool:
+        return await self.session.query(QuestionModel).filter(QuestionModel.question_text == question_text).first() is not None
     async def add_question(self, question: QuestionSchema) -> QuestionSchema:
+        
+        if await self.question_exists(question.question_text):
+            raise ValueError("Вопрос уже существует в базе данных.")
+            
         new_question = QuestionModel(
             question_type=question.question_type,
             question_text=question.question_text,

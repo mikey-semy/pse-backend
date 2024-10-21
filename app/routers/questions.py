@@ -12,8 +12,11 @@ async def post_question(
     question: QuestionSchema,
     session: Session = Depends(get_db_session)
 ) -> QuestionSchema:
-    return await QuestionService(session).add_question(question)
-
+    try:
+        return await QuestionService(session).add_question(question)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+        
 @router.post("/add_all")
 async def add_all_questions(
     session: Session = Depends(get_db_session)

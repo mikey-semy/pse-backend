@@ -96,15 +96,19 @@ function sendAnswer(apiUrl = 'https://pse.aedb.online/') {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Ошибка сети: ' + response.status);
+            return response.json().then(err => {
+                throw new Error(err.detail || 'Ошибка при добавлении вопроса');
+            });
         }
         return response.json();
     })
     .then(data => {
         console.log('Ответ успешно отправлен!', data);
+        showNotification('message', 'Ответ успешно отправлен!', '');
     })
     .catch(error => {
         console.error('Ошибка при отправке ответа:', error);
+        showNotification('error', 'Ошибка при отправке ответа!', error.message);
     });
 }
 
@@ -143,9 +147,11 @@ function updateAnswer(apiUrl = 'https://pse.aedb.online/') {
     })
     .then(data => {
         console.log('Ответ успешно обновлен!', data);
+        showNotification('message', 'Ответ успешно обновлен!', '');
     })
     .catch(error => {
         console.error('Ошибка при обновлении ответа:', error);
+        showNotification('error', 'Ошибка при обновлении ответа', error.message);
     });
 }
 
@@ -190,12 +196,13 @@ function searchQuestion(apiUrl = 'https://pse.aedb.online/') {
 
         error: function (error) {
             console.log('Ошибка: ', error);
+            showNotification('error', 'Ошибка', error.message);
         }
     };
     if (questionText) {
         response.run(apiUrlGet);
     } else {
-        console.log('Ну нет же...');
+        showNotification('error', 'Не та страница для поиска вопроса!', 'Но работоспособность проверена.');
     }
 };
 
@@ -216,8 +223,9 @@ function handleServerResponse(data) {
                 showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
             }
         } else { // Или несколько ответов
-            // highlightCorrectAnswers(data[0].correct_answers);
-            showNotification('questions', 'Найдены несколько ответов:', data, 20000);
+            highlightCorrectAnswers(data[0].correct_answers);
+            showNotification('error', 'Несколько вариантов ответов!', 'Выбран первый...');
+            // showNotification('questions', 'Найдены несколько ответов:', data, 20000);
             // updateAnswer()
         }
     } else {  // Или ответ не найден
@@ -228,7 +236,7 @@ function handleServerResponse(data) {
 
 function showNotification(type, title, message, duration = 5000) {
     const notification = document.createElement('div');
-    notification.className = 'notification';
+    notification.className = `notification ${type}`; // Добавляем класс типа уведомления
     notification.innerHTML = `
         <div class="notification-content">
             <h4>${title}</h4>
@@ -247,96 +255,7 @@ function showNotification(type, title, message, duration = 5000) {
     });
 
     addNotificationStyle();
-
-    if (type === 'questions') {
-        const questionsList = notification.querySelector('.notification-content');
-        questionsList.innerHTML += `
-            <div class="questions-list">
-                ${message.map(q => `
-                    <div class="question-item">
-                        <strong>${q.question_text}</strong>
-                        <p><em>Правильные ответы:</em></p>
-                        <ul>
-                            ${q.correct_answers.map(answer => `<li>${answer}</li>`).join('')}
-                        </ul>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
 }
-
-
-// Функция для отображения сообщения, если ответ не найден
-function showMessageQuestionNotFound() {
-    const message = document.createElement('div');
-    message.className = 'notification';
-    message.innerHTML = `
-        <div class="notification-content">
-            <h4>Вопрос не найден!</h4>
-            <p>Пожалуйста, добавьте новый вопрос с выбраными ответами.</p>
-        </div>
-    `;
-    document.body.appendChild(message);
-
-    // Удаляем уведомление через 5 секунд
-    setTimeout(() => {
-        message.remove();
-    }, 5000);
-
-    // Стили для уведомления
-    addNotificationStyle();
-}
-
-// Функция для отображения сообщения, если ответ не найден
-function showMessageAnswersNotFound() {
-    const message = document.createElement('div');
-    message.className = 'notification';
-    message.innerHTML = `
-        <div class="notification-content">
-            <h4>Правильные ответы не найдены!</h4>
-            <p>Пожалуйста, выберите правильный ответ и обновите.</p>
-        </div>
-    `;
-    document.body.appendChild(message);
-
-    // Удаляем уведомление через 5 секунд
-    setTimeout(() => {
-        message.remove();
-    }, 5000);
-
-    // Стили для уведомления
-    addNotificationStyle();
-}
-
-// Функция для отображения найденных вопросов
-function showQuestions(questions) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <h4>Найдены несколько ответов:</h4>
-            <div class="questions-list">
-                ${questions.map(q => `
-                    <div class="question-item">
-                        <strong>${q.question_text}</strong>
-                        <p><em>Правильные ответы:</em></p>
-                        <ul>
-                            ${q.correct_answers.map(answer => `<li>${answer}</li>`).join('')}
-                        </ul>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    document.body.appendChild(notification);
-
-    // Удаляем уведомление через 10 секунд
-    setTimeout(() => {
-        notification.remove();
-    }, 20000);
-}
-
 
 // Функция для выделения правильных ответов
 function highlightCorrectAnswers(correctAnswers) {
@@ -368,6 +287,23 @@ function addNotificationStyle() {
             width: 300px;
             max-height: 80vh;
             overflow-y: auto;
+        }
+        .notification.error {
+            border-color: #f5c6cb;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .notification.warning {
+            border-color: #ffeeba;
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .notification.message {
+            border-color: #bee5eb;
+            background-color: #d1ecf1;
+            color: #0c5460;
         }
         .notification-content {
             display: flex;
