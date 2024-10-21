@@ -211,16 +211,23 @@ function handleServerResponse(data) {
     if (data.length > 0) {
         // Если найден один вопрос
         if (data.length == 1) {
+            const question = data[0]; // Получаем первый вопрос
             // Имеются ли ответы
-            if (data.answers) {
-                    // Имеются ли правильные ответы
-                    if (data.correct_answers) {
-                        highlightCorrectAnswers(data[0].correct_answers);
-                    } else {
-                        showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
-                    }
+            if (question.answers && question.answers.length > 0) {
+                // Имеются ли правильные ответы
+                if (question.correct_answers && question.correct_answers.length > 0) {
+                    highlightCorrectAnswers(question.correct_answers);
+                } else {
+                    showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+                }
             } else {
                 showNotification('error', 'Ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+                // Имеются ли правильные ответы
+                if (question.correct_answers && question.correct_answers.length > 0) {
+                    highlightCorrectAnswers(question.correct_answers);
+                } else {
+                    showNotification('error', 'Правильные ответы не найдены!', 'Пожалуйста, выберите правильный ответ и обновите.');
+                }
             }
         } else { // Или несколько ответов
             highlightCorrectAnswers(data[0].correct_answers);
@@ -229,11 +236,12 @@ function handleServerResponse(data) {
             // updateAnswer()
         }
     } else {  // Или ответ не найден
-        showNotification('error', 'Вопрос не найден!', 'Пожалуйста, добавьте новый вопрос с выбраными ответами.');
+        showNotification('error', 'Вопрос не найден!', 'Пожалуйста, добавьте новый вопрос с выбранными ответами.');
         // addAnswer()
     }
 }
 
+let notificationTop = 20; // Начальная позиция для первого уведомления
 function showNotification(type, title, message, duration = 5000) {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`; // Добавляем класс типа уведомления
@@ -243,15 +251,29 @@ function showNotification(type, title, message, duration = 5000) {
             <p>${message}</p>
         </div>
     `;
+
+    // Устанавливаем позицию уведомления
+    notification.style.top = `${notificationTop}px`;
+    notificationTop += 70; // Увеличиваем позицию для следующего уведомления (высота уведомления + отступ)
+
     document.body.appendChild(notification);
 
     const closeTimeout = setTimeout(() => {
-        notification.remove();
+        notification.classList.add('fade-out'); // Добавляем класс для эффекта исчезновения
+        setTimeout(() => {
+            notification.remove();
+            notificationTop -= 70; // Уменьшаем позицию для следующего уведомления
+        }, 300); // Удаляем уведомление после завершения анимации
+        
     }, duration);
 
     notification.addEventListener('click', () => {
         clearTimeout(closeTimeout);
-        notification.remove();
+        notification.classList.add('fade-out'); // Добавляем класс для эффекта исчезновения
+        setTimeout(() => {
+            notification.remove();
+            notificationTop -= 70; // Уменьшаем позицию для следующего уведомления
+        }, 300); // Удаляем уведомление после завершения анимации
     });
 
     addNotificationStyle();
@@ -287,7 +309,14 @@ function addNotificationStyle() {
             width: 300px;
             max-height: 80vh;
             overflow-y: auto;
+            transition: opacity 0.3s ease; /* Плавный переход для исчезновения */
+            opacity: 1; /* Начальная непрозрачность */
         }
+  
+        .notification.fade-out {
+            opacity: 0; /* Непрозрачность для эффекта исчезновения */
+        }
+
         .notification.error {
             border-color: #f5c6cb;
             background-color: #f8d7da;
