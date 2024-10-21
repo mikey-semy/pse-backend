@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Query, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.services.questions import QuestionService
 from app.database.session import get_db_session
@@ -16,7 +16,7 @@ async def post_question(
         return await QuestionService(session).add_question(question)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-        
+
 @router.post("/add_all")
 async def add_all_questions(
     session: Session = Depends(get_db_session)
