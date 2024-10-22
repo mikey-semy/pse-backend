@@ -328,11 +328,20 @@ input {
 }
 
 footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     flex-shrink: 0;
     text-align: center;
     padding: 16px;
     background-color: var(--color-footer-bg);
     border-top: 1px solid var(--color-border);
+}
+
+footer__info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 
