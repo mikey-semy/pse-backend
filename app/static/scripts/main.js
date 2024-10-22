@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
 let lastScrollTop = 0;
 const header = document.getElementById('header');
 
-window.addEventListener('scroll', () => {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+document.addEventListener('scroll', () => {
+    let scrollTop = window.pageY || document.documentElement.scrollTop;
     if (scrollTop > lastScrollTop) {
         header.classList.add('app-header--hidden');
     } else {

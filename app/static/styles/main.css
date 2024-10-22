@@ -74,6 +74,7 @@ body {
   cursor: pointer; /* Указываем, что это кнопка */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Тень для кнопки */
   transition: background-color 0.3s; /* Плавный переход цвета фона */
+  z-index: 1001;
 }
 
 #back-to-top:hover {
@@ -239,6 +240,7 @@ input {
     padding: 4px 24px;
     align-items: center;
     height: var(--header-height);
+    z-index: 999;
 }
     
 .app-header--fixed-top {
@@ -246,7 +248,6 @@ input {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
 }
 
 .app-header--hidden {
