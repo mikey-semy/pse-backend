@@ -5,15 +5,3 @@
     переносит все правильные ответы <br />
     в конец списка.
 </div>
-<script>
-    // Проверяем, было ли уведомление уже показано
-    if (!localStorage.getItem('alertShown')) {
-        document.getElementById('alert').style.display = 'block';
-    }
-
-    function closeAlert() {
-        document.getElementById('alert').style.display = 'none';
-        // Сохраняем информацию о том, что уведомление было показано
-        localStorage.setItem('alertShown', 'true');
-    }
-</script>

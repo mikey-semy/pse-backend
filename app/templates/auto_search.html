@@ -3,7 +3,7 @@
 {% block title %}{{title}}{% endblock title %}
 
 {% block content %}
-<div class="content">
+
     <h3>Инструкция по использованию:</h3>
     <ol>
         <li style="display: flex; align-items: center;">
@@ -36,18 +36,4 @@
         <li>Сохранение текстовых вопросов невозможно</li>
         
     </ul>
-</div>
-    <script>
-        document.getElementById('copyButton').addEventListener('click', function() {
-            fetch('/static/scripts/bookmark.new.js')
-                .then(response => response.text())
-                .then(text => {
-                    navigator.clipboard.writeText(text)
-                        .then(() => alert('Код скопирован в буфер обмена'))
-                        .catch(err => console.error('Ошибка копирования: ', err));
-                })
-                .catch(error => console.error('Ошибка загрузки скрипта: ', error));
-        });
-    </script>
-
 {% endblock %}

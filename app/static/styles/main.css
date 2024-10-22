@@ -22,7 +22,6 @@ html, body {
 }
 
 body {
-  height: 100vh;
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
@@ -30,7 +29,6 @@ body {
 
 .content {
   padding: 0 20px;
-  height: 200vh;
 }
 
 /* Стили для WebKit браузеров (Chrome, Safari) */
@@ -361,7 +359,7 @@ footer {
     }
     
     .app-header {
-      height: 40px;
+      height: var(--header-height);
     }
     
     .app-main {
@@ -384,7 +382,6 @@ footer {
     }
     
     .app-header {
-      height: 60px;
       justify-content: space-between;
     }
     
