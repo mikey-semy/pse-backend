@@ -14,12 +14,18 @@
     --color-border: #ccc;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 html {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 body {
-  overflow-y: auto;
+  overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
 }
@@ -76,7 +82,6 @@ body {
 
 .content {
   padding: 0 20px;
-  
 }
 
 h1 {
