@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
 }
