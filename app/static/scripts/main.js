@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.app-header');
     const backToTop = document.getElementById('back-to-top');
     let lastScrollTop = 0;
-
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
+    
+    document.addEventListener('scroll', function() {
+        let scrollTop = window.scrollY || document.documentElement.scrollTop;
+        console.log(scrollTop);
         // Скрытие/показ header
         if (scrollTop > lastScrollTop) {
             header.style.transform = 'translateY(-100%)';

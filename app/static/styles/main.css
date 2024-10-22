@@ -18,28 +18,38 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-html {
   overflow: hidden;
 }
 
 body {
-  overflow-y: auto;
+  height: 100vh;
+  overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
 }
 
+.custom-scroll-container {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) var(--color-background);
+}
+
+.content {
+  padding: 0 20px;
+  height: 200vh;
+}
+
 /* Стили для WebKit браузеров (Chrome, Safari) */
-body::-webkit-scrollbar {
+.custom-scroll-container::-webkit-scrollbar {
   width: 8px;
 }
 
-body::-webkit-scrollbar-track {
+.custom-scroll-container::-webkit-scrollbar-track {
   background: var(--color-background);
 }
 
-body::-webkit-scrollbar-thumb {
+.custom-scroll-container::-webkit-scrollbar-thumb {
   background-color: var(--color-secondary);
   border-radius: 4px;
 }
@@ -80,9 +90,7 @@ body {
   background-color: #0056b3; /* Цвет фона при наведении */
 }
 
-.content {
-  padding: 0 20px;
-}
+
 
 h1 {
     text-align: center;
