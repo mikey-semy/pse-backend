@@ -10,10 +10,6 @@
             const questionResponse = await fetch('/quantity');
             const questionCount = await questionResponse.json();
             document.getElementById('count').textContent = questionCount;
-
-            const duplicateResponse = await fetch('/duplicates_count');
-            const duplicateCount = await duplicateResponse.json();
-            document.getElementById('duplicates').textContent = duplicateCount;
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
         }

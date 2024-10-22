@@ -15,11 +15,12 @@
 }
 
 html {
-    overflow-y: hidden; /* Скрываем вертикальный scrollbar */
+    /* overflow-y: hidden; Скрываем вертикальный scrollbar */
     overflow-x: hidden; /* Скрываем горизонтальный scrollbar */
 }
 
 body {
+  padding-top: var(--header-height);
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
@@ -238,6 +239,7 @@ input {
     color: var(--color-header-text);
     padding: 4px 24px;
     align-items: center;
+    height: var(--header-height);
 }
     
 .app-header--fixed-top {
@@ -245,7 +247,8 @@ input {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    
+    z-index: 1000;
 }
 
 .app-header--hidden {
@@ -330,10 +333,11 @@ input {
     margin: 0 auto;
     width: 100%;
     max-width: 1000px;
-    padding: 80px 0 0 20px;
+    padding: 20px 0 0 20px;
 }
 
 footer {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -342,6 +346,7 @@ footer {
     text-align: center;
     background-color: var(--color-footer-bg);
     border-top: 1px solid var(--color-border);
+    z-index: 2;
 }
 
 
