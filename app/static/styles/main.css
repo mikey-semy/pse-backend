@@ -40,11 +40,13 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-track {
   background: var(--color-background);
+  width: 8px;
 }
 
 body::-webkit-scrollbar-thumb {
   background-color: var(--color-secondary);
-  border-radius: 4px;
+  /* border-radius: 4px; */
+  width: 8px;
 }
 
 body {
@@ -391,14 +393,14 @@ footer {
     }
     
     .logo {
-      font-size: 16px;
+      font-size: 24px;
     }
     
     .nav {
       display: none;
       flex-direction: column;
       position: absolute;
-      top: 36px;
+      top: var(--header-height);
       left: 0;
       width: 100%;
       background-color: var(--color-header-bg);
@@ -412,6 +414,7 @@ footer {
     
     .nav__icon {
       display: block;
+      font-size: 24px;
     }
     
     .nav__items {
