@@ -1,5 +1,5 @@
 :root {
-    --header-height: 80px;
+    --header-height: 60px;
     --color-logo: #ffffff;
     --color-background: #ffffff;
     --color-text: #24292f;
@@ -333,7 +333,7 @@ input {
     margin: 0 auto;
     width: 100%;
     max-width: 1000px;
-    padding: 20px 0 0 20px;
+    padding: 110px 0 0 20px;
 }
 
 footer {
