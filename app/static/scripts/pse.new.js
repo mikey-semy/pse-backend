@@ -34,25 +34,25 @@ const QuestionTypes = {
 // Функция для получения текста вопроса
 function getQuestionText() {
     const questionElement = document.querySelector(`h4.${classNameQuestion_}`);
-    return questionElement ? questionElement.textContent : null;
+    return questionElement ? questionElement.innerText : null;
 }
 
 // Функция для получения текстов ответов
 function getAnswers() {
     const answerElements = document.querySelectorAll(`.${classNameAnswers_} .ant-typography`);
-    return Array.from(answerElements).map(el => el.textContent);
+    return Array.from(answerElements).map(el => el.innerText);
 }
 
 // Функция для получения правильных ответов 
 function getCorrectAnswers() {
     const selectedAnswerElements = document.querySelectorAll(`.${classNameCorrectAnswers_} .ant-typography`);
-    return Array.from(selectedAnswerElements).map(el => el.textContent); // Возвращаем текст без изменений
+    return Array.from(selectedAnswerElements).map(el => el.innerText); // Возвращаем текст без изменений
 }
 
 // Функция для получения типа вопроса
 function getQuestionType() {
     const typeElement = document.querySelector(`div.${classNameQuestionType_}`);
-    const typeText = typeElement ? typeElement.textContent : '';
+    const typeText = typeElement ? typeElement.innerText : '';
     // Определяем тип вопроса на основе текста
     if (typeText.includes('один правильный ответ')) {
         return 'MC'; // Множественный выбор
