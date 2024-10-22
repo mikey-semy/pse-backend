@@ -14,16 +14,11 @@
     --color-border: #ccc;
 }
 
-<<<<<<< HEAD
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
-=======
-html {
-    overflow: hidden;
->>>>>>> parent of 89edba9 (fix: update html and body styles)
 }
 
 body {
