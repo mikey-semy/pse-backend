@@ -14,15 +14,20 @@
     --color-border: #ccc;
 }
 
+<<<<<<< HEAD
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
+=======
+html {
+    overflow: hidden;
+>>>>>>> parent of 89edba9 (fix: update html and body styles)
 }
 
 body {
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
 }
@@ -81,7 +86,14 @@ body {
   background-color: #0056b3; /* Цвет фона при наведении */
 }
 
+<<<<<<< HEAD
 
+=======
+.content {
+  padding: 0 20px;
+  
+}
+>>>>>>> parent of 89edba9 (fix: update html and body styles)
 
 h1 {
     text-align: center;
