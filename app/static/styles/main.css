@@ -1,5 +1,5 @@
 :root {
-    --header-height: 60px;
+    --header-height: 70px;
     --color-logo: #ffffff;
     --color-background: #ffffff;
     --color-text: #24292f;
@@ -389,7 +389,7 @@ footer {
     }
     
     .app-header {
-      height: 40px;
+      height: 60px;
       justify-content: space-between;
     }
     
