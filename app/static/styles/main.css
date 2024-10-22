@@ -15,8 +15,8 @@
 }
 
 html {
-    /* overflow-y: hidden; Скрываем вертикальный scrollbar */
-    overflow-x: hidden; /* Скрываем горизонтальный scrollbar */
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 body {
