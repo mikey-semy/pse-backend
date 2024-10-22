@@ -1,20 +1,3 @@
 <footer>
     <p>&copy; 2024 PSE</p><p id="question-count"><span id="count">0</span></p>
 </footer>
-    
-    
-
-<script>
-    async function fetchData() {
-        try {
-            const questionResponse = await fetch('/quantity');
-            const questionCount = await questionResponse.json();
-            document.getElementById('count').textContent = questionCount;
-        } catch (error) {
-            console.error('Ошибка при получении данных:', error);
-        }
-    }
-
-    // Вызываем функцию для получения данных при загрузке страницы
-    window.onload = fetchData;
-</script>

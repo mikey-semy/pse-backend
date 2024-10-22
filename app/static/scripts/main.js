@@ -128,3 +128,17 @@ function performSearch() {
             // Сохраняем информацию о том, что уведомление было показано
             localStorage.setItem('alertShown', 'true');
         }
+
+
+        async function fetchData() {
+            try {
+                const questionResponse = await fetch('/quantity');
+                const questionCount = await questionResponse.json();
+                document.getElementById('count').textContent = questionCount;
+            } catch (error) {
+                console.error('Ошибка при получении данных:', error);
+            }
+        }
+    
+        // Вызываем функцию для получения данных при загрузке страницы
+        window.onload = fetchData;
