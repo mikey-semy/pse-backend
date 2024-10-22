@@ -20,7 +20,6 @@ html {
 }
 
 body {
-  padding-top: var(--header-height);
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--color-secondary) var(--color-background);
@@ -247,7 +246,6 @@ input {
     top: 0;
     left: 0;
     right: 0;
-    
     z-index: 1000;
 }
 
@@ -333,7 +331,8 @@ input {
     margin: 0 auto;
     width: 100%;
     max-width: 1000px;
-    padding: 110px 0 0 20px;
+    margin-top: var(--header-height);
+    padding: 20px;
 }
 
 footer {
