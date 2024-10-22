@@ -48,7 +48,7 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    padding-top: 60px;
+    
     background-color: var(--color-background);
     color: var(--color-text);
 
