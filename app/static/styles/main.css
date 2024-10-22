@@ -38,13 +38,11 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-track {
   background: var(--color-background);
-  width: 8px;
 }
 
 body::-webkit-scrollbar-thumb {
   background-color: var(--color-secondary);
-  /* border-radius: 4px; */
-  width: 8px;
+  border-radius: 4px;
 }
 
 body {
@@ -55,7 +53,7 @@ body {
     color: var(--color-text);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
     line-height: 1.5; 
-    font-size: 16px;
+    /* font-size: 16px; */
     margin: 0;
     padding: 0;
 }
@@ -325,6 +323,7 @@ input {
 }
 
 .app-main {
+    font-size: 16px;
     flex: 1;
     display: flex;
     flex-direction: column;
