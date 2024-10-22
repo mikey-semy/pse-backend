@@ -28,28 +28,21 @@ body {
   scrollbar-color: var(--color-secondary) var(--color-background);
 }
 
-.custom-scroll-container {
-  height: 100%;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-secondary) var(--color-background);
-}
-
 .content {
   padding: 0 20px;
   height: 200vh;
 }
 
 /* Стили для WebKit браузеров (Chrome, Safari) */
-.custom-scroll-container::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 8px;
 }
 
-.custom-scroll-container::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
   background: var(--color-background);
 }
 
-.custom-scroll-container::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
   background-color: var(--color-secondary);
   border-radius: 4px;
 }
