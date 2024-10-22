@@ -247,6 +247,12 @@ input {
     right: 0;
     z-index: 1;
 }
+
+.app-header--hidden {
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
 @font-face {
   font-family: 'Squada One';
   src: url('/static/fonts/SquadaOne-Regular.ttf') format('truetype');
