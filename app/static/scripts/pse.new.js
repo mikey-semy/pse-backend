@@ -1,5 +1,5 @@
 // Ссылка на API
-const apiUrl = 'https://pse.aedb.online/';
+const apiUrl = 'https://api.pse.aedb.online/';
 
 // Константы для идентификации элементов
 const classNameQuestionType_ = 'ant-typography.css-1y5hf77:not(.text-center)';
