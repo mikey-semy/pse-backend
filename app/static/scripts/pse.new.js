@@ -68,7 +68,7 @@ function getQuestionType() {
 }
 
 // Функция для отправки ответа по API
-function sendAnswer(apiUrl = 'https://pse.aedb.online/') {
+function sendAnswer(apiUrl = 'https://api.pse.aedb.online/') {
     const questionText = getQuestionText();
     const answers = getAnswers();
     const correctAnswers = getCorrectAnswers();
@@ -113,7 +113,7 @@ function sendAnswer(apiUrl = 'https://pse.aedb.online/') {
 }
 
 // Функция для обновления ответа по API
-function updateAnswer(apiUrl = 'https://pse.aedb.online/') {
+function updateAnswer(apiUrl = 'https://api.pse.aedb.online/') {
     const questionType = getQuestionType();
     const questionText = getQuestionText();
     const answers = getAnswers();
@@ -156,7 +156,7 @@ function updateAnswer(apiUrl = 'https://pse.aedb.online/') {
 }
 
 // Функция для поиска вопроса на сервере
-function searchQuestion(apiUrl = 'https://pse.aedb.online/') {
+function searchQuestion(apiUrl = 'https://api.pse.aedb.online/') {
     const questionText = getQuestionText();
     console.log('Ищем вопрос:', questionText);
     
