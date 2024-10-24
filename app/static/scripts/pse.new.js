@@ -274,9 +274,8 @@ function showNotification(type, title, message, duration = 5000) {
 // Функция для выделения правильных ответов
 function highlightCorrectAnswers(correctAnswers) {
     const answerElements = document.querySelectorAll(`.${classNameAnswers_}`);
-    
     answerElements.forEach((el) => {
-        const answerText = el.textContent.trim();
+        const answerText = el.innerText;
         if (correctAnswers.includes(answerText)) {
             console.log("Найден правильный ответ: " + answerText);
             el.classList.add('correct-answer');
